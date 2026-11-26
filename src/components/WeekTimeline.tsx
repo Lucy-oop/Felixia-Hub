@@ -72,7 +72,7 @@ export default function WeekTimeline({
                 key={iso}
                 className={cn(
                   "flex flex-col items-center rounded-xl py-1.5 text-[11px] leading-tight",
-                  isToday ? "bg-primary text-white shadow-blue" : weekend ? "bg-chip text-ink-soft" : "bg-white text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]",
+                  isToday ? "bg-primary text-white shadow-blue" : weekend ? "bg-chip text-ink-soft" : "bg-surface text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]",
                 )}
               >
                 <span>{d.toLocaleDateString(locale, { weekday: "short" })}</span>
@@ -86,7 +86,7 @@ export default function WeekTimeline({
         <div className="mt-1.5 space-y-1.5">
           {PLACEMENTS.map((ch) => (
             <div key={ch} className="grid gap-1.5" style={{ gridTemplateColumns: cols }}>
-              <div className="flex items-center gap-2.5 rounded-xl bg-white px-2.5 py-2 shadow-[inset_0_0_0_1px_var(--color-line)]">
+              <div className="flex items-center gap-2.5 rounded-xl bg-surface px-2.5 py-2 shadow-[inset_0_0_0_1px_var(--color-line)]">
                 <PlacementMark placement={ch} className="h-8 w-8 text-sm" />
                 <div className="min-w-0 leading-tight">
                   <div className="truncate text-sm font-medium text-ink">{ch === "tiktok" ? "TikTok" : "Facebook"}</div>
@@ -110,7 +110,7 @@ export default function WeekTimeline({
                     onDrop={(e) => drop(e, iso)}
                     className={cn(
                       "min-h-[52px] space-y-1 rounded-xl p-0.5 transition",
-                      weekend ? "stripes" : "bg-white/70 shadow-[inset_0_0_0_1px_rgba(233,235,239,0.8)]",
+                      weekend ? "stripes" : "bg-surface/70 shadow-[inset_0_0_0_1px_rgba(233,235,239,0.8)] dark:shadow-[inset_0_0_0_1px_var(--color-line)]",
                       over === key && "ring-2 ring-primary/60",
                     )}
                   >
@@ -139,7 +139,7 @@ export default function WeekTimeline({
                             <span className="block truncate font-medium">{c.title}</span>
                             {wide && <span className="block truncate text-[10px] opacity-75">{c.plannedTime}</span>}
                           </span>
-                          {dot && <span title={dot.title} className={cn("h-2 w-2 shrink-0 rounded-full ring-2 ring-white/80", dot.color)} />}
+                          {dot && <span title={dot.title} className={cn("h-2 w-2 shrink-0 rounded-full ring-2 ring-surface/80", dot.color)} />}
                         </button>
                       );
                     })}

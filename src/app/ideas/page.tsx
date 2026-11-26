@@ -66,7 +66,7 @@ function IdeaRow({ idea }: { idea: Idea }) {
   const who = idea.byName ?? t(`role.${idea.by}`);
 
   return (
-    <li className={cn("rounded-2xl border bg-white p-4 shadow-card", idea.status === "new" && manager ? "border-primary/30" : "border-white")}>
+    <li className={cn("rounded-2xl border bg-surface p-4 shadow-card", idea.status === "new" && manager ? "border-primary/30" : "border-edge")}>
       <div className="flex items-start gap-3">
         <Avatar name={who} className="h-9 w-9" />
         <div className="min-w-0 flex-1">

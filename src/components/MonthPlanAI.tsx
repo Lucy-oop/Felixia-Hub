@@ -308,7 +308,7 @@ function MonthPlanModal({
         aria-modal="true"
         aria-labelledby="aiplan-title"
         onClick={(e) => e.stopPropagation()}
-        className="animate-rise flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-t-[28px] border border-white bg-frame shadow-float sm:max-h-[90vh] sm:rounded-[28px]"
+        className="animate-rise flex max-h-[94vh] w-full max-w-6xl flex-col overflow-hidden rounded-t-[28px] border border-edge bg-frame shadow-float sm:max-h-[90vh] sm:rounded-[28px]"
       >
         {/* header */}
         <header className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
@@ -327,7 +327,7 @@ function MonthPlanModal({
             </p>
           </div>
           {/* month stepper */}
-          <div className="order-last flex w-full items-center justify-between gap-1 rounded-full border border-line bg-white p-1 shadow-raised sm:order-none sm:w-auto">
+          <div className="order-last flex w-full items-center justify-between gap-1 rounded-full border border-line bg-surface p-1 shadow-raised sm:order-none sm:w-auto">
             <MonthBtn
               label={t("aiplan.prevMonth")}
               disabled={monthIdx <= 0 || anyBusy}
@@ -353,7 +353,7 @@ function MonthPlanModal({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised transition hover:text-ink"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised transition hover:text-ink"
             aria-label={t("ai.close")}
           >
             <X className="h-4 w-4" />
@@ -365,7 +365,7 @@ function MonthPlanModal({
           {/* settings */}
           <aside className="space-y-3 border-line p-4 sm:p-5 lg:overflow-y-auto lg:border-r">
             {/* AI content */}
-            <section className="space-y-4 rounded-[20px] border border-white bg-card p-4 shadow-card">
+            <section className="space-y-4 rounded-[20px] border border-edge bg-card p-4 shadow-card">
               <div>
                 <Label>{t("ai.lang")}</Label>
                 <div className="grid grid-cols-3 rounded-full bg-chip/70 p-1">
@@ -384,7 +384,7 @@ function MonthPlanModal({
                       className={cn(
                         "rounded-full py-1.5 text-xs font-medium transition-all",
                         lang === id
-                          ? "bg-white text-ink shadow-raised"
+                          ? "bg-surface text-ink shadow-raised"
                           : "text-ink-soft hover:text-ink",
                       )}
                     >
@@ -482,7 +482,7 @@ function MonthPlanModal({
             </section>
 
             {/* context the AI uses */}
-            <section className="space-y-3 rounded-[20px] border border-white bg-card p-4 shadow-card">
+            <section className="space-y-3 rounded-[20px] border border-edge bg-card p-4 shadow-card">
               <div className="flex items-center gap-2 text-sm">
                 <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-violet-50 text-violet-600">
                   <Lightbulb className="h-3.5 w-3.5" />
@@ -614,7 +614,7 @@ function MonthPlanModal({
                 ? Array.from({ length: Math.min(aiTotal, 5) }, (_, i) => (
                     <li
                       key={`sk${i}`}
-                      className="flex animate-pulse gap-3 rounded-[20px] border border-white bg-card p-4 shadow-card"
+                      className="flex animate-pulse gap-3 rounded-[20px] border border-edge bg-card p-4 shadow-card"
                       style={{ animationDelay: `${i * 120}ms` }}
                     >
                       <span className="h-12 w-12 shrink-0 rounded-2xl bg-chip" />
@@ -626,8 +626,8 @@ function MonthPlanModal({
                     </li>
                   ))
                 : !rows && (
-                    <li className="rounded-[20px] border border-dashed border-gray-300 bg-white/50 px-6 py-10 text-center">
-                      <span className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-full bg-white text-primary shadow-raised ring-4 ring-primary/10">
+                    <li className="rounded-[20px] border border-dashed border-gray-300 bg-surface/50 px-6 py-10 text-center">
+                      <span className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-full bg-surface text-primary shadow-raised ring-4 ring-primary/10">
                         <Sparkles className="h-5 w-5" />
                       </span>
                       <h3 className="text-sm font-medium text-ink">
@@ -696,7 +696,7 @@ function DateTile({
       className={cn(
         "relative flex w-14 shrink-0 cursor-pointer flex-col items-center self-start rounded-2xl py-2 ring-1 transition",
         tone === "blue"
-          ? "bg-white ring-blue-200 hover:ring-blue-400"
+          ? "bg-surface ring-blue-200 hover:ring-blue-400"
           : "bg-frame ring-line hover:ring-primary/40",
       )}
       title={t("aiplan.col.date")}
@@ -750,8 +750,8 @@ function AiItem({
   return (
     <li
       className={cn(
-        "flex gap-3 rounded-[20px] border bg-white p-3 shadow-card transition sm:p-4",
-        r.on ? "border-white" : "border-transparent opacity-60",
+        "flex gap-3 rounded-[20px] border bg-surface p-3 shadow-card transition sm:p-4",
+        r.on ? "border-edge" : "border-transparent opacity-60",
         busy && "animate-pulse",
       )}
     >
@@ -807,7 +807,7 @@ function AiItem({
           )}
         </div>
         <input
-          className="-ml-2 w-full rounded-xl border border-transparent bg-transparent px-2 py-1 text-[15px] font-medium text-ink transition outline-none hover:border-line focus:border-primary/50 focus:bg-white focus:ring-4 focus:ring-primary/10"
+          className="-ml-2 w-full rounded-xl border border-transparent bg-transparent px-2 py-1 text-[15px] font-medium text-ink transition outline-none hover:border-line focus:border-primary/50 focus:bg-surface focus:ring-4 focus:ring-primary/10"
           value={r.headline}
           disabled={busy}
           onChange={(e) => onChange({ headline: e.target.value })}
@@ -846,7 +846,7 @@ function AiItem({
           cooling ? t("aiplan.retryIn", { n: wait }) : t("aiplan.regenRow")
         }
         aria-label={t("aiplan.regenRow")}
-        className="grid h-9 w-9 shrink-0 place-items-center self-start rounded-full border border-line bg-white text-ink-soft shadow-raised transition hover:text-primary disabled:opacity-40"
+        className="grid h-9 w-9 shrink-0 place-items-center self-start rounded-full border border-line bg-surface text-ink-soft shadow-raised transition hover:text-primary disabled:opacity-40"
       >
         <RefreshCw className={cn("h-4 w-4", busy && "animate-spin")} />
       </button>
@@ -892,7 +892,7 @@ function Stepper({
   const set = (v: number) =>
     onChange(Math.min(max, Math.max(min, Math.trunc(v) || 0)));
   return (
-    <div className="flex shrink-0 items-center gap-0.5 rounded-full border border-line bg-white p-0.5 shadow-raised">
+    <div className="flex shrink-0 items-center gap-0.5 rounded-full border border-line bg-surface p-0.5 shadow-raised">
       <button
         type="button"
         aria-label={`${label} −`}
@@ -972,7 +972,7 @@ function PlatformToggle({
           className={cn(
             "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium transition",
             value === p
-              ? "bg-white text-ink shadow-raised"
+              ? "bg-surface text-ink shadow-raised"
               : "text-ink-mute hover:text-ink",
           )}
         >

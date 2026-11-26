@@ -26,7 +26,7 @@ export default function NewPostDialog({
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/20 p-4 backdrop-blur-[2px] sm:items-center" onClick={onClose}>
       <form
         onClick={(e) => e.stopPropagation()}
-        className="animate-rise w-full max-w-lg space-y-4 rounded-[28px] border border-white bg-frame p-6 shadow-float"
+        className="animate-rise w-full max-w-lg space-y-4 rounded-[28px] border border-edge bg-frame p-6 shadow-float"
         onSubmit={(e) => {
           e.preventDefault();
           onCreate({ title: title.trim() || t("np.untitled"), placements, plannedDate: date, plannedTime: time });
@@ -34,7 +34,7 @@ export default function NewPostDialog({
       >
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-medium tracking-tight">{t("np.title")}</h2>
-          <button type="button" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised" aria-label="Close">
+          <button type="button" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised" aria-label="Close">
             <X className="h-4 w-4" />
           </button>
         </div>

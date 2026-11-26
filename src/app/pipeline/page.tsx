@@ -93,7 +93,7 @@ export default function PipelinePage() {
                   <S.icon className="h-4 w-4" />
                 </span>
                 <span className="flex-1 text-sm font-medium">{t(`stage.${st}`)}</span>
-                <span className="rounded-md bg-white px-1.5 py-0.5 text-[11px] font-medium text-ink shadow-sm">{list.length}</span>
+                <span className="rounded-md bg-surface px-1.5 py-0.5 text-[11px] font-medium text-ink shadow-sm">{list.length}</span>
               </div>
               <div className={cn("flex min-h-40 flex-col gap-2", !all && "sm:grid sm:grid-cols-2 lg:grid-cols-3")}>
                 {list.map((c) =>

@@ -89,10 +89,10 @@ export function HolidayEditor({
   };
 
   const iconBtn =
-    "grid h-7 w-7 shrink-0 place-items-center rounded-full text-ink-mute transition hover:bg-white hover:text-ink hover:shadow-raised disabled:pointer-events-none disabled:opacity-30";
+    "grid h-7 w-7 shrink-0 place-items-center rounded-full text-ink-mute transition hover:bg-surface hover:text-ink hover:shadow-raised disabled:pointer-events-none disabled:opacity-30";
 
   const form = draft && (
-    <li className="space-y-2 rounded-2xl bg-white p-3 shadow-raised ring-1 ring-line">
+    <li className="space-y-2 rounded-2xl bg-surface p-3 shadow-raised ring-1 ring-line">
       <div className="grid grid-cols-[auto_1fr] gap-2">
         <input
           type="date"
@@ -161,7 +161,7 @@ export function HolidayEditor({
             <div key={h.id}>{form}</div>
           ) : (
             <li key={h.id ?? h.date + h.name.en} className="group flex items-center gap-1.5" title={h.note}>
-              <span className="grid w-10 shrink-0 rounded-xl bg-white py-1 text-center shadow-raised ring-1 ring-line">
+              <span className="grid w-10 shrink-0 rounded-xl bg-surface py-1 text-center shadow-raised ring-1 ring-line">
                 <span className="text-[9px] leading-none text-ink-mute uppercase">{dayLabel(h.date, { month: "short" })}</span>
                 <span className="text-sm leading-tight font-medium text-ink">
                   {h.approx && <span className="text-ink-mute">≈</span>}

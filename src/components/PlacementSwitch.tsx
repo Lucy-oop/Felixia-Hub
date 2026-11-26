@@ -34,7 +34,7 @@ export default function PlacementSwitch({
           onClick={() => onChange(p)}
           className={cn(
             "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition-all",
-            value === p ? "bg-white font-medium text-ink shadow-raised" : "text-ink-soft hover:text-ink",
+            value === p ? "bg-surface font-medium text-ink shadow-raised" : "text-ink-soft hover:text-ink",
           )}
         >
           <PlacementMark placement={p} />

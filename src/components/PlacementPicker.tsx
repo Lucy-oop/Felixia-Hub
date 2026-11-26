@@ -24,7 +24,7 @@ export default function PlacementPicker({ value, onChange, className }: { value:
             }}
             className={cn(
               "relative flex items-start gap-2.5 rounded-2xl border p-3 text-left transition",
-              on ? "border-primary/40 bg-white shadow-raised ring-4 ring-primary/10" : "border-line bg-white/50 hover:bg-white",
+              on ? "border-primary/40 bg-surface shadow-raised ring-4 ring-primary/10" : "border-line bg-surface/50 hover:bg-surface",
             )}
           >
             <PlacementMark placement={p} className={cn("mt-0.5 h-7 w-7 text-sm", !on && "opacity-50 grayscale")} />

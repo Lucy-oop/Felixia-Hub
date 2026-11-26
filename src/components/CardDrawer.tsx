@@ -73,7 +73,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-ink/20 backdrop-blur-[2px]" onClick={onClose} />
-      <aside className="animate-slide-in absolute inset-y-0 right-0 flex w-full max-w-2xl flex-col border-white bg-frame shadow-float sm:inset-y-3 sm:right-3 sm:rounded-[28px] sm:border">
+      <aside className="animate-slide-in absolute inset-y-0 right-0 flex w-full max-w-2xl flex-col border-edge bg-frame shadow-float sm:inset-y-3 sm:right-3 sm:rounded-[28px] sm:border">
         {/* header */}
         <div className="p-5 pb-4">
           <div className="flex items-start gap-3">
@@ -91,7 +91,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
                 )}
               </div>
             </div>
-            <button onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised hover:text-ink" aria-label="Close">
+            <button onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised hover:text-ink" aria-label="Close">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -128,11 +128,11 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
           <section
             className={cn(
               "rounded-[20px] border p-4",
-              rv === "changes" ? "border-rose-200 bg-rose-50" : needsMe ? "border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50" : "border-white bg-card shadow-card",
+              rv === "changes" ? "border-rose-200 bg-rose-50" : needsMe ? "border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50" : "border-edge bg-card shadow-card",
             )}
           >
             <h3 className="mb-1 text-sm font-medium text-ink">{rv === "changes" ? t("d.clientWants") : t("d.review")}</h3>
-            {rv === "changes" && card.review.note && <ReviewNote note={card.review.note} className="mb-2 rounded-xl bg-white p-3 text-sm ring-1 ring-rose-200" />}
+            {rv === "changes" && card.review.note && <ReviewNote note={card.review.note} className="mb-2 rounded-xl bg-surface p-3 text-sm ring-1 ring-rose-200" />}
             <p className="text-sm text-ink-soft">
               {rv === "none" ? t("d.reviewNone") : rv === "review" ? t("d.reviewWaiting") : rv === "approved" ? t("d.reviewApproved") : ""}
             </p>
@@ -159,7 +159,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
           </section>
 
           {/* preview */}
-          <section className="rounded-[20px] border border-white bg-card p-4 shadow-card">
+          <section className="rounded-[20px] border border-edge bg-card p-4 shadow-card">
             {(() => {
               const pls = placementsOf(editable ? draft : card);
               const shown = pls.includes(pv) ? pv : pls[0];
@@ -174,7 +174,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
 
           {/* where it goes + content for each */}
           {editable && (
-            <section className="space-y-4 rounded-[20px] border border-white bg-card p-4 shadow-card">
+            <section className="space-y-4 rounded-[20px] border border-edge bg-card p-4 shadow-card">
               <div className="rounded-2xl bg-primary-soft/50 p-3 ring-1 ring-primary/10">
                 <h3 className="mb-2 text-xs font-medium text-ink-soft">{t("ai.tools")}</h3>
                 <AiCardActions card={draft} tools={["draft", "check", "tiktok", "boost"]} onApply={(p) => setDraft((d) => (d ? { ...d, ...p } : d))} />
@@ -238,7 +238,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
           )}
 
           {/* details */}
-          <section className="rounded-[20px] border border-white bg-card p-4 shadow-card">
+          <section className="rounded-[20px] border border-edge bg-card p-4 shadow-card">
             <h3 className="mb-3 text-sm font-medium text-ink">{t("d.details")}</h3>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="sm:col-span-2">
@@ -304,7 +304,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
 
           {/* versions */}
           {card.versions.length > 0 && can.seeAllCards(role) && (
-            <section className="rounded-[20px] border border-white bg-card p-4 shadow-card">
+            <section className="rounded-[20px] border border-edge bg-card p-4 shadow-card">
               <button className="flex w-full items-center justify-between text-sm font-medium text-ink" onClick={() => setShowVersions(!showVersions)}>
                 <span className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-ink-soft" /> {t("d.versions")} ({card.versions.length})
@@ -314,7 +314,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
               {showVersions && (
                 <ul className="mt-3 space-y-2">
                   {card.versions.map((v, i) => (
-                    <li key={i} className="rounded-xl bg-white p-3 text-xs ring-1 ring-line">
+                    <li key={i} className="rounded-xl bg-surface p-3 text-xs ring-1 ring-line">
                       <div className="mb-1 font-medium text-ink-soft">
                         v{card.versions.length - i} · {t("d.saved")} {fmtDateTime(v.at, locale)}
                       </div>
@@ -333,7 +333,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
 
           {/* comments */}
           {can.seeAllCards(role) && (
-            <section className="space-y-3 rounded-[20px] border border-white bg-card p-4 shadow-card">
+            <section className="space-y-3 rounded-[20px] border border-edge bg-card p-4 shadow-card">
               <h3 className="text-sm font-medium text-ink">{t("d.comments")}</h3>
               {card.comments.length === 0 && <p className="text-sm text-ink-mute">{t("d.noComments")}</p>}
               {card.comments.map((c) => {
@@ -342,7 +342,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
                 return (
                   <div key={c.id} className={cn("flex gap-2", mine && "flex-row-reverse")}>
                     <Avatar name={who} className="h-8 w-8 text-xs" />
-                    <div className={cn("max-w-[80%] rounded-2xl px-3.5 py-2 text-sm", mine ? "rounded-tr-md bg-primary text-white" : "rounded-tl-md bg-white text-ink ring-1 ring-line")}>
+                    <div className={cn("max-w-[80%] rounded-2xl px-3.5 py-2 text-sm", mine ? "rounded-tr-md bg-primary text-white" : "rounded-tl-md bg-surface text-ink ring-1 ring-line")}>
                       <div className={cn("mb-0.5 text-[11px]", mine ? "text-white/80" : "text-ink-mute")}>
                         <b className="font-medium">{who}</b> · {fmtDateTime(c.at, locale)}
                       </div>
@@ -353,7 +353,7 @@ export default function CardDrawer({ id, onClose }: { id: string; onClose: () =>
               })}
               {can.comment(role) && (
                 <form
-                  className="rounded-2xl border border-line bg-white p-2 shadow-raised"
+                  className="rounded-2xl border border-line bg-surface p-2 shadow-raised"
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (comment.trim()) {

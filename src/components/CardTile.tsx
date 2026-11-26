@@ -30,14 +30,14 @@ export default function CardTile({ card, draggable = false, highlight = false }:
         "group w-full rounded-2xl p-3 text-left transition-all duration-150 hover:-translate-y-0.5",
         red
           ? "border border-rose-200 bg-rose-50 shadow-card hover:shadow-float"
-          : highlight ? "bg-gradient-to-br from-yellow-300 to-yellow-200 shadow-[0_10px_24px_-12px_rgba(234,179,8,0.7)]" : "border border-white bg-white shadow-card hover:shadow-float",
+          : highlight ? "bg-gradient-to-br from-yellow-300 to-yellow-200 shadow-[0_10px_24px_-12px_rgba(234,179,8,0.7)]" : "border border-edge bg-surface shadow-card hover:shadow-float",
         draggable && "cursor-grab active:cursor-grabbing",
       )}
     >
       <div className="flex items-start gap-2.5">
         {card.graphicSrc && (isImg(card.graphicSrc) || card.graphicUrl.startsWith("sb:")) && !isVideo(card.graphicUrl) ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={card.graphicSrc} alt="" className="h-10 w-10 shrink-0 rounded-xl object-cover ring-2 ring-white" />
+          <img src={card.graphicSrc} alt="" className="h-10 w-10 shrink-0 rounded-xl object-cover ring-2 ring-surface" />
         ) : (
           <span className={cn("grid h-10 w-10 shrink-0 place-items-center rounded-xl", S.bar)}>
             <S.icon className="h-4 w-4" />
@@ -48,7 +48,7 @@ export default function CardTile({ card, draggable = false, highlight = false }:
             <div className="line-clamp-2 text-sm leading-snug font-medium text-ink">{card.title}</div>
             <span className="mt-0.5 flex shrink-0 -space-x-1">
               {placementsOf(card).map((p) => (
-                <PlacementMark key={p} placement={p} className="ring-2 ring-white" />
+                <PlacementMark key={p} placement={p} className="ring-2 ring-surface" />
               ))}
             </span>
           </div>
@@ -58,10 +58,10 @@ export default function CardTile({ card, draggable = false, highlight = false }:
         </div>
       </div>
       <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-        <GrayChip icon={CalendarDays} className={highlight ? "bg-white/50" : ""}>
+        <GrayChip icon={CalendarDays} className={highlight ? "bg-surface/50" : ""}>
           {fmtDate(card.plannedDate, locale)}
         </GrayChip>
-        <GrayChip icon={Clock} className={highlight ? "bg-white/50" : ""}>
+        <GrayChip icon={Clock} className={highlight ? "bg-surface/50" : ""}>
           {card.plannedTime || "—"}
         </GrayChip>
         {tab && tab !== "published" && (
@@ -73,7 +73,7 @@ export default function CardTile({ card, draggable = false, highlight = false }:
       </div>
       <FbStatus card={card} locale={locale} t={t} />
       {red && card.review.note && (
-        <ReviewNote note={card.review.note} compact className="mt-2 rounded-xl bg-white px-2.5 py-1.5 text-xs ring-1 ring-rose-200" />
+        <ReviewNote note={card.review.note} compact className="mt-2 rounded-xl bg-surface px-2.5 py-1.5 text-xs ring-1 ring-rose-200" />
       )}
     </button>
   );
@@ -84,7 +84,7 @@ function FbStatus({ card, locale, t }: { card: ContentCard; locale: string; t: (
   const { fbScheduleStatus: st, fbPostId, fbScheduledFor, fbScheduleError } = card;
   if (st === "failed")
     return (
-      <div title={fbScheduleError} className="mt-2 line-clamp-3 rounded-xl bg-white px-2.5 py-1.5 text-xs text-rose-700 ring-1 ring-rose-200">
+      <div title={fbScheduleError} className="mt-2 line-clamp-3 rounded-xl bg-surface px-2.5 py-1.5 text-xs text-rose-700 ring-1 ring-rose-200">
         <span className="font-medium">{t("fb.failed")}:</span> {fbScheduleError}
       </div>
     );

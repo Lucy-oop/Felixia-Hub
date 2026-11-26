@@ -1,7 +1,8 @@
 "use client";
 
-import { CircleCheck, Clapperboard, Eye, Lightbulb, Palette, PenLine, Send, type LucideIcon } from "lucide-react";
+import { CircleCheck, Clapperboard, Eye, Lightbulb, Monitor, Moon, Palette, PenLine, Send, Sun, type LucideIcon } from "lucide-react";
 import { LANGS, useT } from "@/lib/i18n";
+import { useTheme, type ThemePref } from "@/lib/theme";
 import type { ApplicantStage, ApprovalStatus, Category, JobStatus, Placement, Platform, Stage } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -32,9 +33,9 @@ export function Button({
         "focus-visible:ring-4 focus-visible:ring-primary/25 focus-visible:outline-none",
         size === "sm" ? "h-8 px-3 text-xs" : "h-10 px-4 text-sm",
         variant === "primary" && "bg-primary text-white shadow-blue hover:bg-blue-600",
-        variant === "secondary" && "border border-line bg-white text-ink shadow-raised hover:bg-gray-50",
+        variant === "secondary" && "border border-line bg-surface text-ink shadow-raised hover:bg-gray-50",
         variant === "ghost" && "text-ink-soft hover:bg-chip/70 hover:text-ink",
-        variant === "danger" && "border border-line bg-white text-rose-600 shadow-raised hover:bg-rose-50",
+        variant === "danger" && "border border-line bg-surface text-rose-600 shadow-raised hover:bg-rose-50",
         variant === "success" && "bg-green-500 text-white shadow-[0_8px_20px_-8px_rgba(34,197,94,0.6)] hover:bg-green-600",
         variant === "dark" && "bg-ink text-white hover:bg-black",
         className,
@@ -49,7 +50,7 @@ export function IconButton({ className, active, ...p }: React.ButtonHTMLAttribut
       {...p}
       className={cn(
         "relative grid h-10 w-10 shrink-0 place-items-center rounded-full transition-all [&_svg]:h-[18px] [&_svg]:w-[18px]",
-        active ? "border border-line bg-white text-ink shadow-raised" : "text-ink-soft hover:bg-white hover:text-ink",
+        active ? "border border-line bg-surface text-ink shadow-raised" : "text-ink-soft hover:bg-surface hover:text-ink",
         className,
       )}
     />
@@ -68,7 +69,7 @@ export function Field({ label, children, hint }: { label: string; children: Reac
 }
 
 export const inputCls =
-  "w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-mute outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 disabled:cursor-not-allowed disabled:bg-frame disabled:text-ink-soft";
+  "w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-mute outline-none transition focus:border-primary/50 focus:ring-4 focus:ring-primary/10 disabled:cursor-not-allowed disabled:bg-frame disabled:text-ink-soft";
 
 export const selectCls =
   inputCls +
@@ -76,11 +77,11 @@ export const selectCls =
 
 /** Small pill dropdown used for filters (does not stretch). */
 export const pillSelectCls =
-  "h-9 shrink-0 appearance-none rounded-full border border-line bg-white bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%239ca3af%22 stroke-width=%222.5%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:12px] bg-[right_0.75rem_center] bg-no-repeat pr-8 pl-3.5 text-xs text-ink shadow-raised outline-none focus:ring-4 focus:ring-primary/10";
+  "h-9 shrink-0 appearance-none rounded-full border border-line bg-surface bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%239ca3af%22 stroke-width=%222.5%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:12px] bg-[right_0.75rem_center] bg-no-repeat pr-8 pl-3.5 text-xs text-ink shadow-raised outline-none focus:ring-4 focus:ring-primary/10";
 
 /* ---------- Surfaces ---------- */
 export function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <section className={cn("rounded-[24px] border border-white bg-card p-5 shadow-card", className)}>{children}</section>;
+  return <section className={cn("rounded-[24px] border border-edge bg-card p-5 shadow-card", className)}>{children}</section>;
 }
 
 export function PanelHeader({ title, children, count }: { title: string; children?: React.ReactNode; count?: number }) {
@@ -108,7 +109,7 @@ export function PageHeader({ title, sub, children }: { title: string; sub?: stri
 }
 
 export function Empty({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-2xl border border-dashed border-gray-300 bg-white/50 px-4 py-8 text-center text-sm text-ink-mute">{children}</div>;
+  return <div className="rounded-2xl border border-dashed border-gray-300 bg-surface/50 px-4 py-8 text-center text-sm text-ink-mute">{children}</div>;
 }
 
 export function Alert({ children, tone = "rose", onClose }: { children: React.ReactNode; tone?: "rose" | "amber"; onClose?: () => void }) {
@@ -137,7 +138,7 @@ export function Badge({ children, className }: { children: React.ReactNode; clas
 /** Gray info chip, e.g. "14:00 – 15:00" or "December, 5". */
 export function GrayChip({ icon: Icon, children, className }: { icon?: LucideIcon; children: React.ReactNode; className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-lg bg-chip/80 px-2.5 py-1 text-xs text-ink-soft shadow-[inset_0_0_0_1px_rgba(255,255,255,0.7)]", className)}>
+    <span className={cn("inline-flex items-center gap-1.5 rounded-lg bg-chip/80 px-2.5 py-1 text-xs text-ink-soft shadow-[inset_0_0_0_1px_rgba(255,255,255,0.7)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]", className)}>
       {Icon && <Icon className="h-3.5 w-3.5" />}
       {children}
     </span>
@@ -147,7 +148,7 @@ export function GrayChip({ icon: Icon, children, className }: { icon?: LucideIco
 /** Small white pill with a colored dot, e.g. "● Approved". */
 export function StatusPill({ color, children, className }: { color: string; children: React.ReactNode; className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-1 rounded-md bg-white px-1.5 py-0.5 text-[10px] font-medium whitespace-nowrap text-ink shadow-sm", className)}>
+    <span className={cn("inline-flex items-center gap-1 rounded-md bg-surface px-1.5 py-0.5 text-[10px] font-medium whitespace-nowrap text-ink shadow-sm", className)}>
       <span className={cn("h-1.5 w-1.5 rounded-full", color)} />
       {children}
     </span>
@@ -156,12 +157,12 @@ export function StatusPill({ color, children, className }: { color: string; chil
 
 /* ---------- Stages (Image 1 status colors) ---------- */
 export const STAGE_STYLE: Record<Stage, { bar: string; icon: LucideIcon; iconWrap: string; chip: string; dot: string; lane: string }> = {
-  idea: { bar: "bg-gradient-to-r from-gray-200 to-gray-100 text-gray-700", icon: Lightbulb, iconWrap: "bg-white/80 text-gray-500", chip: "bg-gray-100 text-gray-600", dot: "bg-gray-400", lane: "bg-gray-400" },
-  draft: { bar: "bg-gradient-to-r from-blue-200/90 to-blue-100/80 text-blue-900 backdrop-blur", icon: PenLine, iconWrap: "bg-white/70 text-blue-500", chip: "bg-blue-50 text-blue-700", dot: "bg-blue-400", lane: "bg-blue-400" },
+  idea: { bar: "bg-gradient-to-r from-gray-200 to-gray-100 text-gray-700", icon: Lightbulb, iconWrap: "bg-surface/80 text-gray-500", chip: "bg-gray-100 text-gray-600", dot: "bg-gray-400", lane: "bg-gray-400" },
+  draft: { bar: "bg-gradient-to-r from-blue-200/90 to-blue-100/80 text-blue-900 backdrop-blur", icon: PenLine, iconWrap: "bg-surface/70 text-blue-500", chip: "bg-blue-50 text-blue-700", dot: "bg-blue-400", lane: "bg-blue-400" },
   design: { bar: "bg-gradient-to-r from-violet-600 to-violet-400 text-white", icon: Palette, iconWrap: "bg-white/20 text-white", chip: "bg-violet-50 text-violet-700", dot: "bg-violet-500", lane: "bg-violet-500" },
-  review: { bar: "bg-gradient-to-r from-yellow-300 to-yellow-200 text-amber-950", icon: Eye, iconWrap: "bg-white/50 text-amber-700", chip: "bg-yellow-50 text-amber-700", dot: "bg-yellow-400", lane: "bg-yellow-400" },
+  review: { bar: "bg-gradient-to-r from-yellow-300 to-yellow-200 text-amber-950", icon: Eye, iconWrap: "bg-surface/50 text-amber-700", chip: "bg-yellow-50 text-amber-700", dot: "bg-yellow-400", lane: "bg-yellow-400" },
   approved: { bar: "bg-gradient-to-r from-green-500 to-green-400 text-white", icon: CircleCheck, iconWrap: "bg-white/20 text-white", chip: "bg-green-50 text-green-700", dot: "bg-green-500", lane: "bg-green-500" },
-  published: { bar: "bg-gradient-to-r from-[#1f2329] to-[#3f4652] text-white", icon: Send, iconWrap: "bg-white/15 text-white", chip: "bg-gray-800 text-white", dot: "bg-ink", lane: "bg-ink" },
+  published: { bar: "bg-gradient-to-r from-[#1f2329] to-[#3f4652] text-white dark:from-[#3a3d44] dark:to-[#4a4e57]", icon: Send, iconWrap: "bg-white/15 text-white", chip: "bg-gray-800 text-white dark:bg-[#3a3d44]", dot: "bg-ink", lane: "bg-ink" },
 };
 
 export function StageBadge({ stage }: { stage: Stage }) {
@@ -216,7 +217,7 @@ export function PlacementMark({ placement, className }: { placement: Placement; 
     );
   if (placement === "fb_story")
     return (
-      <span className={cn(base, "bg-white ring-2 ring-[#1877F2] ring-inset", className)}>
+      <span className={cn(base, "bg-surface ring-2 ring-[#1877F2] ring-inset", className)}>
         <span className="h-[40%] w-[40%] rounded-full bg-[#1877F2]" />
       </span>
     );
@@ -226,7 +227,7 @@ export function PlacementMark({ placement, className }: { placement: Placement; 
 export function PlatformBadge({ platform, format }: { platform: Platform; format?: string }) {
   const { t } = useT();
   return (
-    <Badge className="bg-white text-ink-soft shadow-sm ring-1 ring-line">
+    <Badge className="bg-surface text-ink-soft shadow-sm ring-1 ring-line">
       <PlatformMark platform={platform} className="h-3.5 w-3.5 text-[8px]" />
       {platform === "facebook" ? "Facebook" : "TikTok"}
       {format ? ` · ${t(`fmt.${format}`)}` : ""}
@@ -257,7 +258,7 @@ export const APPLICANT_TONE: Record<ApplicantStage, { dot: string; bar: string }
   contacted: { dot: "bg-yellow-400", bar: "bg-gradient-to-r from-yellow-300 to-yellow-200 text-amber-950" },
   interview: { dot: "bg-violet-500", bar: "bg-gradient-to-r from-violet-600 to-violet-400 text-white" },
   passed: { dot: "bg-green-500", bar: "bg-gradient-to-r from-green-500 to-green-400 text-white" },
-  departed: { dot: "bg-ink", bar: "bg-gradient-to-r from-[#1f2329] to-[#3f4652] text-white" },
+  departed: { dot: "bg-ink", bar: "bg-gradient-to-r from-[#1f2329] to-[#3f4652] text-white dark:from-[#3a3d44] dark:to-[#4a4e57]" },
   rejected: { dot: "bg-gray-400", bar: "bg-gradient-to-r from-gray-200 to-gray-100 text-gray-700" },
 };
 
@@ -281,7 +282,7 @@ export function Segmented<T extends string>({ value, options, onChange, classNam
         <button
           key={o.id}
           onClick={() => onChange(o.id)}
-          className={cn("rounded-full px-3.5 py-1.5 text-xs font-medium transition-all", value === o.id ? "bg-white text-ink shadow-raised" : "text-ink-soft hover:text-ink")}
+          className={cn("rounded-full px-3.5 py-1.5 text-xs font-medium transition-all", value === o.id ? "bg-surface text-ink shadow-raised" : "text-ink-soft hover:text-ink")}
         >
           {o.label}
         </button>
@@ -300,9 +301,52 @@ export function LangSwitcher({ className }: { className?: string }) {
           lang={l.id}
           title={l.name}
           onClick={() => setLang(l.id)}
-          className={cn("rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-all", lang === l.id ? "bg-white text-ink shadow-raised" : "text-ink-soft hover:text-ink")}
+          className={cn("rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-all", lang === l.id ? "bg-surface text-ink shadow-raised" : "text-ink-soft hover:text-ink")}
         >
           {l.short}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- Theme ---------- */
+/** Top-bar Sun/Moon button: one click flips Light ↔ Dark (shows the mode you'd switch to). */
+export function ThemeToggle({ className }: { className?: string }) {
+  const { resolved, toggle } = useTheme();
+  const { t } = useT();
+  const dark = resolved === "dark";
+  const label = t(dark ? "theme.toLight" : "theme.toDark");
+  return (
+    <IconButton onClick={toggle} aria-label={label} title={label} className={cn("border border-line bg-surface shadow-raised", className)}>
+      <Sun className={cn("absolute transition-all duration-300", dark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-50 opacity-0")} />
+      <Moon className={cn("absolute transition-all duration-300", dark ? "rotate-90 scale-50 opacity-0" : "rotate-0 scale-100 opacity-100")} />
+    </IconButton>
+  );
+}
+
+/** Appearance: Light / Dark / Auto (in the avatar menu). */
+export function ThemeSegmented({ className }: { className?: string }) {
+  const { pref, setPref } = useTheme();
+  const { t } = useT();
+  const opts: { id: ThemePref; icon: typeof Sun; label: string }[] = [
+    { id: "light", icon: Sun, label: t("theme.light") },
+    { id: "dark", icon: Moon, label: t("theme.dark") },
+    { id: "system", icon: Monitor, label: t("theme.auto") },
+  ];
+  return (
+    <div className={cn("inline-flex rounded-full bg-chip/70 p-1", className)} role="group" aria-label={t("theme.title")}>
+      {opts.map((o) => (
+        <button
+          key={o.id}
+          onClick={() => setPref(o.id)}
+          aria-pressed={pref === o.id}
+          className={cn(
+            "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap transition-all",
+            pref === o.id ? "bg-surface text-ink shadow-raised" : "text-ink-soft hover:text-ink",
+          )}
+        >
+          <o.icon className="h-3.5 w-3.5" /> {o.label}
         </button>
       ))}
     </div>
@@ -316,7 +360,7 @@ export function Avatar({ name, className }: { name: string; className?: string }
   const n = (name || "?").trim();
   const tone = AVATAR_TONES[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % AVATAR_TONES.length];
   return (
-    <span title={n} className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-semibold ring-2 ring-white", tone, className)}>
+    <span title={n} className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-full text-sm font-semibold ring-2 ring-surface", tone, className)}>
       {n.charAt(0).toUpperCase()}
     </span>
   );
@@ -330,7 +374,7 @@ export function AvatarStack({ names, max = 3, className }: { names: string[]; ma
       {shown.map((n, i) => (
         <Avatar key={i} name={n} />
       ))}
-      {extra > 0 && <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-xs font-medium text-ink-soft ring-2 ring-white shadow-raised">{extra}+</span>}
+      {extra > 0 && <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-xs font-medium text-ink-soft ring-2 ring-surface shadow-raised">{extra}+</span>}
     </div>
   );
 }

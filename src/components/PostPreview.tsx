@@ -43,7 +43,7 @@ export default function PostPreview({ card, placement }: { card: ContentCard; pl
 
   if (placement === "fb_post")
     return (
-      <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+      <div className="theme-light overflow-hidden rounded-2xl border border-line bg-white shadow-card">
         <div className="flex items-center gap-2.5 p-3">
           <Logo className="h-10 w-10 rounded-full" />
           <div className="min-w-0">
@@ -127,7 +127,7 @@ export default function PostPreview({ card, placement }: { card: ContentCard; pl
 
 function Phone({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-[340px]">
+    <div className="theme-light mx-auto w-full max-w-[340px]">
       <div className="relative aspect-[9/16] overflow-hidden rounded-[28px] border-4 border-ink bg-ink shadow-float">{children}</div>
     </div>
   );

@@ -27,7 +27,7 @@ export default function PostingSheet({ id, onClose }: { id: string; onClose: () 
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-ink/20 backdrop-blur-[2px]" onClick={onClose} />
-      <aside className="animate-slide-in absolute inset-y-0 right-0 flex w-full max-w-3xl flex-col border-white bg-frame shadow-float sm:inset-y-3 sm:right-3 sm:rounded-[28px] sm:border">
+      <aside className="animate-slide-in absolute inset-y-0 right-0 flex w-full max-w-3xl flex-col border-edge bg-frame shadow-float sm:inset-y-3 sm:right-3 sm:rounded-[28px] sm:border">
         <div className="flex items-start gap-3 p-5 pb-3">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-1.5">
@@ -40,7 +40,7 @@ export default function PostingSheet({ id, onClose }: { id: string; onClose: () 
             <h2 className="mt-2 text-xl leading-tight font-medium tracking-tight text-ink">{card.title}</h2>
             <p className="mt-1 text-sm text-ink-soft">{t("post.progress", { done, n: pls.length })}</p>
           </div>
-          <button onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised hover:text-ink" aria-label="Close">
+          <button onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised hover:text-ink" aria-label="Close">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -77,7 +77,7 @@ function PlaceRow({ card, placement, manager }: { card: ContentCard; placement: 
   const media = VERTICAL.includes(placement) ? card.tiktokSrc || card.graphicSrc : card.graphicSrc;
 
   return (
-    <div className={cn("rounded-2xl border bg-white p-3 transition", p ? "border-green-200" : "border-line")}>
+    <div className={cn("rounded-2xl border bg-surface p-3 transition", p ? "border-green-200" : "border-line")}>
       <div className="flex items-center gap-2.5">
         <button
           disabled={!manager}
@@ -86,7 +86,7 @@ function PlaceRow({ card, placement, manager }: { card: ContentCard; placement: 
           aria-label={t("post.markPosted")}
           className={cn(
             "grid h-7 w-7 shrink-0 place-items-center rounded-lg border-2 transition",
-            p ? "border-green-500 bg-green-500 text-white" : "border-gray-300 bg-white text-transparent hover:border-green-400",
+            p ? "border-green-500 bg-green-500 text-white" : "border-gray-300 bg-surface text-transparent hover:border-green-400",
             !manager && "cursor-default",
           )}
         >
@@ -125,7 +125,7 @@ function PlaceRow({ card, placement, manager }: { card: ContentCard; placement: 
               </Button>
             )}
             {media && (
-              <a href={media} target="_blank" rel="noreferrer" download className="inline-flex h-8 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-xs font-medium shadow-raised hover:bg-gray-50">
+              <a href={media} target="_blank" rel="noreferrer" download className="inline-flex h-8 items-center gap-1.5 rounded-full border border-line bg-surface px-3 text-xs font-medium shadow-raised hover:bg-gray-50">
                 <Download className="h-3.5 w-3.5" /> {t("post.download")}
               </a>
             )}

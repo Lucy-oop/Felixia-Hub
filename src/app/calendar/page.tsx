@@ -78,7 +78,7 @@ export default function PostingCalendarPage() {
         {view === "month" ? (
           <>
             <div className="mb-3 flex items-center gap-2">
-              <div className="flex items-center rounded-full border border-line bg-white shadow-raised">
+              <div className="flex items-center rounded-full border border-line bg-surface shadow-raised">
                 <button className="grid h-9 w-9 place-items-center text-ink-soft hover:text-ink" onClick={() => shift(-1)} aria-label="Previous">
                   <ChevronLeft className="h-4 w-4" />
                 </button>
@@ -95,7 +95,7 @@ export default function PostingCalendarPage() {
               <div className="min-w-[780px]">
                 <div className="mb-1.5 grid grid-cols-7 gap-1.5">
                   {weekdays.map((d, i) => (
-                    <div key={d} className={cn("rounded-xl py-1.5 text-center text-[11px]", i >= 5 ? "bg-chip text-ink-soft" : "bg-white text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]")}>
+                    <div key={d} className={cn("rounded-xl py-1.5 text-center text-[11px]", i >= 5 ? "bg-chip text-ink-soft" : "bg-surface text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]")}>
                       {d}
                     </div>
                   ))}
@@ -110,7 +110,7 @@ export default function PostingCalendarPage() {
                         key={iso}
                         className={cn(
                           "min-h-32 rounded-xl p-1.5",
-                          weekend ? "stripes" : "bg-white/80 shadow-[inset_0_0_0_1px_rgba(233,235,239,0.9)]",
+                          weekend ? "stripes" : "bg-surface/80 shadow-[inset_0_0_0_1px_rgba(233,235,239,0.9)] dark:shadow-[inset_0_0_0_1px_var(--color-line)]",
                           d.getMonth() !== cursor.getMonth() && "opacity-40",
                           iso === today && "ring-2 ring-primary",
                         )}
@@ -135,7 +135,7 @@ export default function PostingCalendarPage() {
         {/* legend */}
         <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-ink-soft">
           <span className="inline-flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded border-2 border-green-500 bg-white" /> {t("post.legendReady")}
+            <span className="h-3 w-3 rounded border-2 border-green-500 bg-surface" /> {t("post.legendReady")}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="h-3 w-3 rounded bg-ink" /> {t("post.legendLive")}
@@ -174,7 +174,7 @@ function PostChip({ card, onOpen }: { card: ContentCard; onOpen: () => void }) {
       title={card.title}
       className={cn(
         "flex w-full items-center gap-1.5 rounded-lg p-1 text-left text-[11px] transition hover:-translate-y-px",
-        live ? "bg-gradient-to-r from-[#1f2329] to-[#3f4652] text-white" : "border-2 border-green-500 bg-white text-ink",
+        live ? "bg-gradient-to-r from-[#1f2329] to-[#3f4652] text-white dark:from-[#3a3d44] dark:to-[#4a4e57]" : "border-2 border-green-500 bg-surface text-ink",
       )}
     >
       {thumb && !isVideo(stored) && (isImg(thumb) || stored.startsWith("sb:")) ? (
@@ -217,7 +217,7 @@ function ListView({ cards, onOpen }: { cards: ContentCard[]; onOpen: (id: string
               const pls = placementsOf(c);
               const done = pls.filter((p) => c.posted[p]).length;
               return (
-                <button key={c.id} onClick={() => onOpen(c.id)} className="flex w-full flex-wrap items-center gap-3 rounded-2xl border border-white bg-white p-3 text-left shadow-card hover:shadow-float">
+                <button key={c.id} onClick={() => onOpen(c.id)} className="flex w-full flex-wrap items-center gap-3 rounded-2xl border border-edge bg-surface p-3 text-left shadow-card hover:shadow-float">
                   <span className="text-sm text-ink-soft">{c.plannedTime}</span>
                   <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.title}</span>
                   <CategoryChip category={c.category} />

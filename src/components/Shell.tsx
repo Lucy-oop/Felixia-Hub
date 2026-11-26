@@ -31,7 +31,7 @@ import CardDrawer from "./CardDrawer";
 import Login from "./Login";
 import NewPostDialog from "./NewPostDialog";
 import TelegramConnect from "./TelegramConnect";
-import { Alert, Avatar, AvatarStack, Button, IconButton, LangSwitcher, STAGE_STYLE } from "./ui";
+import { Alert, Avatar, Button, IconButton, LangSwitcher, STAGE_STYLE, ThemeSegmented, ThemeToggle } from "./ui";
 
 type NavItem = { href: string; label: TKey; icon: LucideIcon; roles: Role[]; labelFor?: Partial<Record<Role, TKey>>; short?: TKey };
 const ALL: Role[] = ["manager", "client"];
@@ -58,7 +58,7 @@ export const useUI = () => useContext(UICtx);
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <span className={cn("grid h-11 w-11 place-items-center rounded-2xl border border-line bg-white shadow-raised", className)}>
+    <span className={cn("grid h-11 w-11 place-items-center rounded-2xl border border-line bg-surface shadow-raised", className)}>
       <span className="flex items-end gap-[3px]">
         <span className="h-3 w-[5px] rounded-full bg-primary/50" />
         <span className="h-5 w-[5px] rounded-full bg-primary" />
@@ -81,7 +81,7 @@ function usePopover() {
   return { open, setOpen, ref };
 }
 
-const popCls = "animate-rise absolute top-12 right-0 z-50 w-80 rounded-2xl border border-line bg-white p-2 shadow-float";
+const popCls = "animate-rise absolute top-12 right-0 z-50 w-80 rounded-2xl border border-line bg-surface p-2 shadow-float";
 
 export default function Shell({ children }: { children: React.ReactNode }) {
   const store = useStore();
@@ -169,7 +169,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               <span
                 className={cn(
                   "grid h-10 w-10 place-items-center rounded-full transition-all",
-                  path === n.href ? "border border-line bg-white shadow-raised ring-4 ring-primary/10" : "group-hover:bg-white",
+                  path === n.href ? "border border-line bg-surface shadow-raised ring-4 ring-primary/10" : "group-hover:bg-surface",
                 )}
               >
                 <n.icon className="h-[18px] w-[18px]" />
@@ -186,15 +186,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <UICtx.Provider value={{ openCard: setCardId, newPost: () => setCreating(true) }}>
       <div className="min-h-screen p-0 sm:p-3 lg:p-5">
-        <div className="flex min-h-[calc(100vh-2.5rem)] gap-3 rounded-none border-white bg-frame p-2.5 print:bg-white print:p-0 print:shadow-none sm:rounded-[30px] sm:border sm:p-3 sm:shadow-card">
+        <div className="flex min-h-[calc(100vh-2.5rem)] gap-3 rounded-none border-edge bg-frame p-2.5 print:bg-white print:p-0 print:shadow-none sm:rounded-[30px] sm:border sm:p-3 sm:shadow-card">
           {/* left rail */}
-          <aside className="sticky top-5 z-40 hidden print:!hidden h-[calc(100vh-4.25rem)] w-[84px] shrink-0 flex-col items-center gap-2 rounded-[22px] border border-white bg-card py-3 shadow-card lg:flex">
+          <aside className="sticky top-5 z-40 hidden print:!hidden h-[calc(100vh-4.25rem)] w-[84px] shrink-0 flex-col items-center gap-2 rounded-[22px] border border-edge bg-card py-3 shadow-card lg:flex">
             <Link href="/" aria-label="Felixia Hub">
               <Logo />
             </Link>
             <div className="flex w-full flex-1 flex-col items-center justify-center gap-1.5">{railNav}</div>
             <button onClick={() => signOut()} className="group flex w-full flex-col items-center gap-1 px-1.5 text-ink-soft hover:text-ink">
-              <span className="grid h-10 w-10 place-items-center rounded-full group-hover:bg-white">
+              <span className="grid h-10 w-10 place-items-center rounded-full group-hover:bg-surface">
                 <LogOut className="h-[18px] w-[18px]" />
               </span>
               <span className="line-clamp-2 text-center text-[11px] leading-tight">{t("auth.signOut")}</span>
@@ -203,7 +203,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
           <div className="flex min-w-0 flex-1 flex-col gap-3">
             {/* top bar */}
-            <header className="sticky top-2 z-30 flex print:hidden items-center gap-2 rounded-[22px] border border-white bg-card/90 p-2 shadow-card backdrop-blur sm:top-3 lg:top-5">
+            <header className="sticky top-2 z-30 flex print:hidden items-center gap-2 rounded-[22px] border border-edge bg-card/90 p-2 shadow-card backdrop-blur sm:top-3 lg:top-5">
               <IconButton className="lg:hidden" onClick={() => setMenu(true)} aria-label={t("nav.menu")}>
                 <Menu />
               </IconButton>
@@ -216,7 +216,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                       href={n.href}
                       className={cn(
                         "flex h-10 shrink-0 items-center gap-2 rounded-full px-3.5 text-sm transition-all",
-                        active ? "border border-line bg-white font-medium text-ink shadow-raised ring-4 ring-primary/5" : "text-ink-soft hover:bg-white/70 hover:text-ink",
+                        active ? "border border-line bg-surface font-medium text-ink shadow-raised ring-4 ring-primary/5" : "text-ink-soft hover:bg-surface/70 hover:text-ink",
                       )}
                     >
                       <n.icon className="h-4 w-4" />
@@ -228,7 +228,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
               {/* search */}
               <div ref={search.ref} className="relative">
-                <IconButton onClick={() => search.setOpen(!search.open)} aria-label={t("nav.search")} className="bg-white/60">
+                <IconButton onClick={() => search.setOpen(!search.open)} aria-label={t("nav.search")} className="bg-surface/60">
                   <Search />
                 </IconButton>
                 {search.open && (
@@ -262,13 +262,13 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
               <div className="flex-1" />
 
-              {db && <AvatarStack names={db.profiles.map((p) => p.fullName || "?")} className="hidden xl:flex" />}
               <div className="hidden sm:block">{quickAction}</div>
               <LangSwitcher className="hidden md:inline-flex" />
+              <ThemeToggle className="hidden md:grid" />
 
               {/* bell */}
               <div ref={bell.ref} className="relative">
-                <IconButton onClick={() => bell.setOpen(!bell.open)} className="border border-line bg-white shadow-raised" aria-label={t("notif.title")}>
+                <IconButton onClick={() => bell.setOpen(!bell.open)} className="border border-line bg-surface shadow-raised" aria-label={t("notif.title")}>
                   <Bell />
                   {bellCount > 0 && <span className="absolute -top-0.5 -right-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">{bellCount}</span>}
                 </IconButton>
@@ -314,6 +314,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                     <div className="p-2 md:hidden">
                       <LangSwitcher />
                     </div>
+                    <div className="flex flex-wrap items-center justify-between gap-2 px-2 py-1.5">
+                      <span className="text-xs text-ink-mute">{t("theme.title")}</span>
+                      <ThemeSegmented />
+                    </div>
                     <TelegramConnect />
                     <button onClick={() => signOut()} className="flex w-full items-center gap-2 rounded-xl px-2 py-2 text-sm text-ink-soft hover:bg-frame hover:text-ink">
                       <LogOut className="h-4 w-4" /> {t("auth.signOut")}
@@ -343,7 +347,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                         onClick={() => !soon && setMenu(false)}
                         className={cn(
                           "flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm",
-                          path === n.href ? "border border-line bg-white font-medium shadow-raised" : "text-ink-soft",
+                          path === n.href ? "border border-line bg-surface font-medium shadow-raised" : "text-ink-soft",
                           soon && "pointer-events-none opacity-40",
                         )}
                       >

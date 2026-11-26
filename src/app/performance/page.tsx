@@ -92,7 +92,7 @@ export default function PerformancePage() {
             { id: "month", label: t("perf.month") },
           ]}
         />
-        <div className="flex items-center rounded-full border border-line bg-white shadow-raised">
+        <div className="flex items-center rounded-full border border-line bg-surface shadow-raised">
           <button className="grid h-9 w-9 place-items-center text-ink-soft hover:text-ink" onClick={() => setCursor(shift(period, mode, -1))} aria-label="Previous">
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -134,7 +134,7 @@ export default function PerformancePage() {
               onClick={() => setMetric(k)}
               className={cn(
                 "animate-rise rounded-[24px] border p-4 text-left transition-all",
-                active ? "border-primary/30 bg-white shadow-raised ring-4 ring-primary/10" : "border-white bg-card shadow-card hover:bg-white",
+                active ? "border-primary/30 bg-surface shadow-raised ring-4 ring-primary/10" : "border-edge bg-card shadow-card hover:bg-surface",
               )}
             >
               <div className="flex items-center justify-between">
@@ -218,7 +218,7 @@ export default function PerformancePage() {
           ) : (
             <ul className="space-y-1.5">
               {byJob.map(([id, c]) => (
-                <li key={id} className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm shadow-card">
+                <li key={id} className="flex items-center gap-2 rounded-xl bg-surface px-3 py-2 text-sm shadow-card">
                   <span className="min-w-0 flex-1 truncate">{db.jobs.find((j) => j.id === id)?.title ?? "—"}</span>
                   <span className="rounded-full bg-primary-soft px-2 py-0.5 text-xs text-primary">{c.i}</span>
                   <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-700" title={t("inq.kind.application")}>
@@ -247,7 +247,7 @@ export default function PerformancePage() {
                   <a key={x.id + i} href={u} target="_blank" rel="noreferrer" className="group relative">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={u} alt="" className="h-40 rounded-xl object-cover ring-1 ring-line transition group-hover:opacity-90 print:h-56" />
-                    <span className="absolute top-2 left-2 rounded-full bg-white/90 p-0.5 shadow">
+                    <span className="absolute top-2 left-2 rounded-full bg-surface/90 p-0.5 shadow">
                       <PlatformMark platform={x.platform} />
                     </span>
                   </a>
@@ -305,7 +305,7 @@ function EnterNumbers() {
         </div>
         <div className="grid gap-3 md:grid-cols-2">
           {(["facebook", "tiktok"] as const).map((p) => (
-            <div key={p} className="rounded-2xl border border-white bg-white p-4 shadow-card">
+            <div key={p} className="rounded-2xl border border-edge bg-surface p-4 shadow-card">
               <div className="mb-3 flex items-center gap-2 text-sm font-medium">
                 <PlatformMark platform={p} className="h-5 w-5 text-[10px]" /> {p === "facebook" ? "Facebook" : "TikTok"}
               </div>

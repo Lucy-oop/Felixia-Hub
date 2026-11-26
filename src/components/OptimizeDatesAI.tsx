@@ -83,7 +83,7 @@ function OptimizeModal({ month, onClose }: { month: string; onClose: () => void 
         aria-modal="true"
         aria-labelledby="opt-title"
         onClick={(e) => e.stopPropagation()}
-        className="animate-rise flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[28px] border border-white bg-frame shadow-float sm:max-h-[90vh] sm:rounded-[28px]"
+        className="animate-rise flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[28px] border border-edge bg-frame shadow-float sm:max-h-[90vh] sm:rounded-[28px]"
       >
         <header className="flex items-center gap-3 border-b border-line px-5 py-4 sm:px-6">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-soft text-primary">
@@ -100,7 +100,7 @@ function OptimizeModal({ month, onClose }: { month: string; onClose: () => void 
           <button
             onClick={onClose}
             disabled={busy}
-            className="grid h-9 w-9 place-items-center rounded-full text-ink-soft hover:bg-white hover:text-ink disabled:opacity-40"
+            className="grid h-9 w-9 place-items-center rounded-full text-ink-soft hover:bg-surface hover:text-ink disabled:opacity-40"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -123,7 +123,7 @@ function OptimizeModal({ month, onClose }: { month: string; onClose: () => void 
 
           {res && (
             <>
-              <div className="rounded-2xl border border-line bg-white p-4 shadow-raised">
+              <div className="rounded-2xl border border-line bg-surface p-4 shadow-raised">
                 <div className="mb-1 text-xs font-medium tracking-wide text-ink-mute uppercase">{t("opt.health")}</div>
                 <p className="text-sm whitespace-pre-wrap text-ink">{res.summary || "—"}</p>
               </div>
@@ -179,7 +179,7 @@ function ChangeRow({ c, on, toggle, fmt }: { c: DateChange; on: boolean; toggle:
     <li>
       <label
         className={cn(
-          "flex cursor-pointer items-start gap-3 rounded-2xl border bg-white p-3 transition",
+          "flex cursor-pointer items-start gap-3 rounded-2xl border bg-surface p-3 transition",
           on ? "border-primary/40 shadow-raised" : "border-line opacity-60",
         )}
       >

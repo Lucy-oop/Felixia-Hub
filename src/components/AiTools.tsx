@@ -186,7 +186,7 @@ function AiModal({
           aria-modal="true"
           onClick={(e) => e.stopPropagation()}
           className={cn(
-            "animate-rise w-full space-y-4 rounded-[28px] border border-white bg-frame p-6 shadow-float",
+            "animate-rise w-full space-y-4 rounded-[28px] border border-edge bg-frame p-6 shadow-float",
             wide ? "max-w-3xl" : "max-w-xl",
           )}
         >
@@ -202,7 +202,7 @@ function AiModal({
             <button
               type="button"
               onClick={onClose}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -240,7 +240,7 @@ function Choice<T extends string>({
           className={cn(
             "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
             value === o.id
-              ? "bg-white text-ink shadow-raised"
+              ? "bg-surface text-ink shadow-raised"
               : "text-ink-soft hover:text-ink",
           )}
         >
@@ -284,7 +284,7 @@ function Spinner() {
 
 function Busy({ text }: { text: string }) {
   return (
-    <div className="flex items-center justify-center gap-2 rounded-2xl bg-white py-8 text-sm text-ink-soft ring-1 ring-line">
+    <div className="flex items-center justify-center gap-2 rounded-2xl bg-surface py-8 text-sm text-ink-soft ring-1 ring-line">
       <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary/20 border-t-primary" />{" "}
       {text}
     </div>
@@ -354,7 +354,7 @@ function ScriptFields({
 }) {
   const { t } = useT();
   return (
-    <div className="space-y-3 rounded-2xl bg-white p-3 ring-1 ring-line">
+    <div className="space-y-3 rounded-2xl bg-surface p-3 ring-1 ring-line">
       <Field label={t("ai.script.hook")}>
         <input
           className={inputCls}
@@ -963,7 +963,7 @@ function RepurposeDialog({
             </div>
           )}
           {r.tiktok_caption && (
-            <div className="rounded-2xl bg-white p-3 text-sm ring-1 ring-line">
+            <div className="rounded-2xl bg-surface p-3 text-sm ring-1 ring-line">
               <div className="mb-1 text-xs text-ink-soft">
                 {t("d.ttCaption")}
               </div>
@@ -1007,7 +1007,7 @@ function ScriptView({ script }: { script: TikTokScript }) {
     ["25–30s", <span key="c">{script.cta}</span>],
   ];
   return (
-    <div className="divide-y divide-line rounded-2xl bg-white ring-1 ring-line">
+    <div className="divide-y divide-line rounded-2xl bg-surface ring-1 ring-line">
       <div className="px-3 pt-2.5 pb-1.5 text-xs font-medium text-ink-soft">
         {t("ai.tiktok.script")}
       </div>
@@ -1160,7 +1160,7 @@ function ComplianceDialog({
                     <li
                       key={i}
                       className={cn(
-                        "rounded-xl bg-white p-3 ring-1",
+                        "rounded-xl bg-surface p-3 ring-1",
                         done ? "ring-green-200" : "ring-amber-200",
                       )}
                     >
@@ -1282,7 +1282,7 @@ function BoostDialog({
       {!ai.busy && d && (
         <div className="animate-rise space-y-3">
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-line">
+            <div className="rounded-2xl bg-surface p-4 shadow-card ring-1 ring-line">
               <div className="text-xs text-ink-soft">
                 {t("ai.boost.budget")}
               </div>
@@ -1290,7 +1290,7 @@ function BoostDialog({
                 ${d.recommended_budget_usd}
               </div>
             </div>
-            <div className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-line">
+            <div className="rounded-2xl bg-surface p-4 shadow-card ring-1 ring-line">
               <div className="text-xs text-ink-soft">
                 {t("ai.boost.duration")}
               </div>
@@ -1299,7 +1299,7 @@ function BoostDialog({
               </div>
             </div>
           </div>
-          <div className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-line">
+          <div className="rounded-2xl bg-surface p-4 shadow-card ring-1 ring-line">
             <div className="text-xs text-ink-soft">
               {t("ai.boost.audience")}
             </div>

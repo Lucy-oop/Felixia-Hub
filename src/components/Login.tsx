@@ -19,7 +19,7 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen items-center justify-center p-3 sm:p-6">
-      <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[30px] border border-white bg-frame shadow-card lg:flex-row">
+      <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[30px] border border-edge bg-frame shadow-card lg:flex-row">
         {/* left: product panel */}
         <div className="relative hidden flex-1 flex-col justify-between p-10 lg:flex">
           <div className="flex items-center gap-3">
@@ -31,13 +31,13 @@ export default function Login() {
             <h1 className="mt-8 max-w-sm text-3xl leading-tight font-medium tracking-tight">{t("login.heroTitle")}</h1>
             <p className="mt-3 max-w-sm text-ink-soft">{t("login.heroSub")}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              <GrayChip icon={CircleCheck} className="bg-white">
+              <GrayChip icon={CircleCheck} className="bg-surface">
                 {t("login.f1")}
               </GrayChip>
-              <GrayChip icon={CalendarDays} className="bg-white">
+              <GrayChip icon={CalendarDays} className="bg-surface">
                 {t("login.f2")}
               </GrayChip>
-              <GrayChip icon={Sparkles} className="bg-white">
+              <GrayChip icon={Sparkles} className="bg-surface">
                 {t("login.f3")}
               </GrayChip>
             </div>
@@ -46,7 +46,7 @@ export default function Login() {
         </div>
 
         {/* right: form */}
-        <div className="m-2.5 flex flex-1 flex-col rounded-[24px] border border-white bg-card p-6 shadow-card sm:p-10 lg:max-w-md">
+        <div className="m-2.5 flex flex-1 flex-col rounded-[24px] border border-edge bg-card p-6 shadow-card sm:p-10 lg:max-w-md">
           <div className="flex items-center justify-between">
             <div className="lg:hidden">
               <Logo />
@@ -66,11 +66,11 @@ export default function Login() {
               <h2 className="text-[28px] font-medium tracking-tight">{t("login.welcome")}</h2>
               <p className="mt-1 text-sm text-ink-soft">{t("login.sub")}</p>
             </div>
-            <label className="flex items-center gap-2.5 rounded-2xl border border-line bg-white px-3.5 shadow-raised focus-within:ring-4 focus-within:ring-primary/10">
+            <label className="flex items-center gap-2.5 rounded-2xl border border-line bg-surface px-3.5 shadow-raised focus-within:ring-4 focus-within:ring-primary/10">
               <Mail className="h-4 w-4 text-ink-mute" />
               <input type="email" required autoComplete="email" placeholder={t("login.email")} className={input} value={email} onChange={(e) => setEmail(e.target.value)} />
             </label>
-            <label className="flex items-center gap-2.5 rounded-2xl border border-line bg-white px-3.5 shadow-raised focus-within:ring-4 focus-within:ring-primary/10">
+            <label className="flex items-center gap-2.5 rounded-2xl border border-line bg-surface px-3.5 shadow-raised focus-within:ring-4 focus-within:ring-primary/10">
               <Lock className="h-4 w-4 text-ink-mute" />
               <input type="password" required autoComplete="current-password" placeholder={t("login.password")} className={input} value={password} onChange={(e) => setPassword(e.target.value)} />
             </label>

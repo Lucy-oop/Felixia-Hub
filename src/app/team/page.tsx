@@ -19,7 +19,7 @@ export default function TeamPage() {
       <p className="mt-0.5 mb-5 text-sm text-ink-soft">{t("team.sub")}</p>
       <ul className="space-y-2">
         {db.profiles.map((p) => (
-          <li key={p.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-white bg-white p-3 shadow-card">
+          <li key={p.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-edge bg-surface p-3 shadow-card">
             <Avatar name={p.fullName || "?"} className="h-11 w-11" />
             <input
               className={inputCls + " min-w-40 flex-1"}

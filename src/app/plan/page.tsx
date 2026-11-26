@@ -282,7 +282,7 @@ export default function PlanPage() {
 
               {/* toolbar */}
               <div className="mb-4 flex flex-wrap items-center gap-2">
-                <div className="flex items-center rounded-full border border-line bg-white shadow-raised">
+                <div className="flex items-center rounded-full border border-line bg-surface shadow-raised">
                   <button
                     className="grid h-9 w-9 place-items-center text-ink-soft hover:text-ink"
                     onClick={() => shift(-1)}
@@ -374,7 +374,7 @@ export default function PlanPage() {
 
               {/* manager: lines the client asked to fix */}
               {manager && toFix.length > 0 && (
-                <div className="animate-rise mb-4 rounded-2xl bg-white p-3 shadow-card ring-1 ring-line">
+                <div className="animate-rise mb-4 rounded-2xl bg-surface p-3 shadow-card ring-1 ring-line">
                   <div className="mb-2 flex items-center gap-2">
                     <span
                       className={cn(
@@ -440,8 +440,8 @@ export default function PlanPage() {
                       className={cn(
                         "inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-medium transition",
                         on
-                          ? "bg-white text-ink shadow-raised ring-1 ring-line"
-                          : "text-ink-soft hover:bg-white/70 hover:text-ink",
+                          ? "bg-surface text-ink shadow-raised ring-1 ring-line"
+                          : "text-ink-soft hover:bg-surface/70 hover:text-ink",
                       )}
                     >
                       {st && (
@@ -662,7 +662,7 @@ function PlanMonth({
                 "rounded-xl py-1.5 text-center text-[11px]",
                 i >= 5
                   ? "bg-chip text-ink-soft"
-                  : "bg-white text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]",
+                  : "bg-surface text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]",
               )}
             >
               {d}
@@ -693,7 +693,7 @@ function PlanMonth({
                   "group min-h-28 rounded-xl p-1.5 transition",
                   weekend
                     ? "stripes"
-                    : "bg-white/80 shadow-[inset_0_0_0_1px_rgba(233,235,239,0.9)]",
+                    : "bg-surface/80 shadow-[inset_0_0_0_1px_rgba(233,235,239,0.9)] dark:shadow-[inset_0_0_0_1px_var(--color-line)]",
                   d.getMonth() !== cursor.getMonth() && "opacity-40",
                   iso === today && "ring-2 ring-primary",
                   over === iso && "ring-2 ring-primary/60",
@@ -743,7 +743,7 @@ function PlanMonth({
                             <PlacementMark
                               key={p}
                               placement={p}
-                              className="h-3.5 w-3.5 text-[8px] ring-1 ring-white"
+                              className="h-3.5 w-3.5 text-[8px] ring-1 ring-surface"
                             />
                           ))}
                         </span>
@@ -823,7 +823,7 @@ function PlanTable({
         </div>
       )}
       <div className="-mx-1 overflow-x-auto px-1">
-        <table className="w-full min-w-230 border-separate border-spacing-0 overflow-hidden rounded-2xl bg-white text-sm shadow-card">
+        <table className="w-full min-w-230 border-separate border-spacing-0 overflow-hidden rounded-2xl bg-surface text-sm shadow-card">
           <thead>
             <tr className="bg-frame text-left text-xs text-ink-soft">
               <th className="w-28 px-4 py-2.5 font-medium">
@@ -1239,7 +1239,7 @@ function EditNoteCard({
 }) {
   const { t } = useT();
   return (
-    <div className="animate-rise space-y-2 rounded-2xl bg-white p-2.5 shadow-card ring-1 ring-line">
+    <div className="animate-rise space-y-2 rounded-2xl bg-surface p-2.5 shadow-card ring-1 ring-line">
       <span className="flex items-center gap-1.5 px-0.5 text-xs font-medium text-ink">
         <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />{" "}
         {t("plan.whatChange")}
@@ -1346,7 +1346,7 @@ function ClientDecision({ card }: { card: ContentCard }) {
         </p>
       )}
       {!writing && isUpdated(card) && (
-        <div className="space-y-0.5 rounded-xl bg-white/80 px-2 py-1.5 text-[11px] ring-1 ring-line">
+        <div className="space-y-0.5 rounded-xl bg-surface/80 px-2 py-1.5 text-[11px] ring-1 ring-line">
           <div className="text-ink-mute">
             {t("plan.youAsked")}: “{card.plan.note}”
           </div>
@@ -1384,7 +1384,7 @@ function CommentView({
       <div
         className={cn(
           "rounded-xl px-2.5 py-1.5 text-sm ring-1",
-          warn ? "bg-white ring-yellow-200" : "bg-white/80 ring-line",
+          warn ? "bg-surface ring-yellow-200" : "bg-surface/80 ring-line",
         )}
       >
         <ReviewNote note={text} plan className="text-ink" />
@@ -1479,14 +1479,14 @@ function ClientLineDialog({
             </div>
             <button
               onClick={onClose}
-              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised"
+              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="space-y-2 rounded-2xl bg-white p-3.5 ring-1 ring-line">
+          <div className="space-y-2 rounded-2xl bg-surface p-3.5 ring-1 ring-line">
             <div className="flex flex-wrap items-center gap-1.5 text-xs text-ink-soft">
               <span className="font-medium text-ink">
                 {d.toLocaleDateString(locale, {
@@ -1696,7 +1696,7 @@ function PlanLineDialog({
             </h2>
             <button
               onClick={onClose}
-              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised"
+              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -1893,7 +1893,7 @@ function SlotAttach({ card }: { card: ContentCard }) {
       </span>
       {jobs.length > 0 && (
         <select
-          className="h-7 max-w-56 cursor-pointer rounded-full border border-line bg-white px-2.5 text-[11px] text-ink shadow-raised outline-none focus:ring-2 focus:ring-primary/20"
+          className="h-7 max-w-56 cursor-pointer rounded-full border border-line bg-surface px-2.5 text-[11px] text-ink shadow-raised outline-none focus:ring-2 focus:ring-primary/20"
           value=""
           onChange={(e) =>
             e.target.value &&

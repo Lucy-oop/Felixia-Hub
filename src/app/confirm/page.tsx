@@ -40,7 +40,7 @@ export default function ConfirmPage() {
             onClick={() => setTab(x)}
             className={cn(
               "flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all",
-              tab === x ? "bg-white text-ink shadow-raised" : "text-ink-soft hover:text-ink",
+              tab === x ? "bg-surface text-ink shadow-raised" : "text-ink-soft hover:text-ink",
             )}
           >
             <span className={cn("h-2 w-2 rounded-full", TAB_DOT[x])} />
@@ -173,7 +173,7 @@ function PostReview({ card, tab, index, total }: { card: ContentCard; tab: Tab; 
 
             {/* ---- client: step 1, decide ---- */}
             {client && tab === "review" && mode.kind === "idle" && (
-              <div className="space-y-2.5 rounded-2xl bg-white p-4 ring-1 ring-line">
+              <div className="space-y-2.5 rounded-2xl bg-surface p-4 ring-1 ring-line">
                 <p className="text-[15px] font-medium text-ink">{t("cf.ready")}</p>
                 <Button variant="success" className="h-12 w-full text-[15px]" onClick={() => start("approved")}>
                   <Check className="h-5 w-5" /> {t("cf.yesApprove")}
@@ -186,7 +186,7 @@ function PostReview({ card, tab, index, total }: { card: ContentCard; tab: Tab; 
 
             {/* ---- client: step 2, what to change ---- */}
             {client && tab === "review" && mode.kind === "form" && (
-              <div className="animate-rise space-y-3 rounded-2xl bg-white p-4 ring-1 ring-rose-200">
+              <div className="animate-rise space-y-3 rounded-2xl bg-surface p-4 ring-1 ring-rose-200">
                 <div className="flex items-start justify-between gap-2">
                   <p className="text-[15px] font-medium text-ink">{t("cf.whatChange")}</p>
                   <button onClick={() => setMode({ kind: "idle" })} className="grid h-7 w-7 place-items-center rounded-full text-ink-mute hover:bg-frame" aria-label={t("cf.cancel")}>
@@ -207,7 +207,7 @@ function PostReview({ card, tab, index, total }: { card: ContentCard; tab: Tab; 
                           onClick={() => togglePart(p)}
                           className={cn(
                             "inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm transition",
-                            on ? "border-rose-300 bg-rose-50 font-medium text-rose-700" : "border-line bg-white text-ink-soft hover:border-rose-200",
+                            on ? "border-rose-300 bg-rose-50 font-medium text-rose-700" : "border-line bg-surface text-ink-soft hover:border-rose-200",
                           )}
                         >
                           {on && <Check className="h-3.5 w-3.5" />}
@@ -254,7 +254,7 @@ function PostReview({ card, tab, index, total }: { card: ContentCard; tab: Tab; 
               <div
                 role="status"
                 className={cn(
-                  "animate-rise rounded-2xl bg-white p-4 ring-1",
+                  "animate-rise rounded-2xl bg-surface p-4 ring-1",
                   mode.decision === "approved" ? "ring-green-200" : "ring-rose-200",
                 )}
               >
@@ -276,7 +276,7 @@ function PostReview({ card, tab, index, total }: { card: ContentCard; tab: Tab; 
 
             {/* ---- already decided ---- */}
             {card.review.note && tab !== "review" && (
-              <div className={cn("rounded-2xl rounded-tl-md bg-white p-3.5 text-sm ring-1", tab === "changes" ? "ring-rose-200" : "ring-line")}>
+              <div className={cn("rounded-2xl rounded-tl-md bg-surface p-3.5 text-sm ring-1", tab === "changes" ? "ring-rose-200" : "ring-line")}>
                 <div className="mb-1 text-xs font-medium text-ink-mute">
                   {client ? t("cf.yourNote") : t("cf.clientNote")}
                   {card.review.at && ` · ${fmtDateTime(card.review.at, locale)}`}

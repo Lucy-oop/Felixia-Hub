@@ -69,7 +69,7 @@ export default function MediaField({
           setDrag(false);
           upload(e.dataTransfer.files[0]);
         }}
-        className={cn("flex items-center gap-3 rounded-2xl border border-dashed p-2.5 transition", drag ? "border-primary bg-primary-soft/40" : "border-gray-300 bg-white/60")}
+        className={cn("flex items-center gap-3 rounded-2xl border border-dashed p-2.5 transition", drag ? "border-primary bg-primary-soft/40" : "border-gray-300 bg-surface/60")}
       >
         {/* thumbnail */}
         <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl bg-chip/60 text-ink-mute">

@@ -39,7 +39,7 @@ export default function Home() {
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h1 className={cn("leading-tight font-medium tracking-tight", role === "client" ? "text-xl" : "text-[28px]")}>{t("tl.title")}</h1>
         <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-full border border-line bg-white shadow-raised">
+          <div className="flex items-center rounded-full border border-line bg-surface shadow-raised">
             <button className="grid h-9 w-9 place-items-center rounded-full text-ink-soft hover:text-ink" onClick={() => setWeekStart(addDays(weekStart, -7))} aria-label="Previous week">
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -50,7 +50,7 @@ export default function Home() {
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
-          <Link href="/calendar" className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-white px-3.5 text-sm shadow-raised hover:bg-gray-50">
+          <Link href="/calendar" className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm shadow-raised hover:bg-gray-50">
             <ArrowUpRight className="h-4 w-4" /> {t("tl.viewAll")}
           </Link>
         </div>
@@ -161,7 +161,7 @@ export default function Home() {
 function ViewAll({ href }: { href: string }) {
   const { t } = useT();
   return (
-    <Link href={href} className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-white px-3.5 text-sm shadow-raised hover:bg-gray-50">
+    <Link href={href} className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm shadow-raised hover:bg-gray-50">
       <ArrowUpRight className="h-4 w-4" /> {t("tl.viewAll")}
     </Link>
   );
@@ -177,7 +177,7 @@ function Upcoming({ card, highlight }: { card: ContentCard; highlight: boolean }
       onClick={() => openCard(card.id)}
       className={cn(
         "w-full rounded-2xl p-3.5 text-left transition hover:-translate-y-0.5",
-        highlight ? "bg-gradient-to-br from-yellow-300 to-yellow-200 shadow-[0_12px_24px_-14px_rgba(202,138,4,0.8)]" : "border border-white bg-white shadow-card",
+        highlight ? "bg-gradient-to-br from-yellow-300 to-yellow-200 shadow-[0_12px_24px_-14px_rgba(202,138,4,0.8)]" : "border border-edge bg-surface shadow-card",
       )}
     >
       <div className="flex items-start justify-between gap-2">
@@ -192,10 +192,10 @@ function Upcoming({ card, highlight }: { card: ContentCard; highlight: boolean }
         </StatusPill>
       </div>
       <div className="mt-3 flex flex-wrap gap-1.5">
-        <GrayChip icon={Clock} className={highlight ? "bg-white/45" : ""}>
+        <GrayChip icon={Clock} className={highlight ? "bg-surface/45" : ""}>
           {card.plannedTime || "—"}
         </GrayChip>
-        <GrayChip icon={CalendarDays} className={highlight ? "bg-white/45" : ""}>
+        <GrayChip icon={CalendarDays} className={highlight ? "bg-surface/45" : ""}>
           {fmtDate(card.plannedDate, locale)}
         </GrayChip>
       </div>
@@ -218,14 +218,14 @@ function MiniGrid({ cards, empty }: { cards: ContentCard[]; empty: string }) {
             onClick={() => openCard(c.id)}
             className={cn(
               "flex flex-col items-center rounded-2xl border p-3 text-center shadow-card transition hover:-translate-y-0.5",
-              needsEdit(c) ? "border-rose-200 bg-rose-50" : "border-white bg-white",
+              needsEdit(c) ? "border-rose-200 bg-rose-50" : "border-edge bg-surface",
             )}
           >
             {c.graphicSrc && (isImg(c.graphicSrc) || c.graphicUrl.startsWith("sb:")) && !isVideo(c.graphicUrl) ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={c.graphicSrc} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-white" />
+              <img src={c.graphicSrc} alt="" className="h-11 w-11 rounded-full object-cover ring-2 ring-surface" />
             ) : (
-              <span className={cn("grid h-11 w-11 place-items-center rounded-full ring-2 ring-white", S.bar)}>
+              <span className={cn("grid h-11 w-11 place-items-center rounded-full ring-2 ring-surface", S.bar)}>
                 <S.icon className="h-4 w-4" />
               </span>
             )}
@@ -282,7 +282,7 @@ function WelcomeCard() {
 
       {canIdea && (
         <form
-          className="mt-3 rounded-2xl border border-line bg-white p-2.5 shadow-raised"
+          className="mt-3 rounded-2xl border border-line bg-surface p-2.5 shadow-raised"
           onSubmit={(e) => {
             e.preventDefault();
             if (!idea.trim()) return;

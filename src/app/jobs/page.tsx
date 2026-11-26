@@ -90,9 +90,9 @@ export default function JobsPage() {
             <article
               key={j.id}
               className={cn(
-                "flex flex-col rounded-[20px] border bg-white p-4 shadow-card",
+                "flex flex-col rounded-[20px] border bg-surface p-4 shadow-card",
                 closed && "opacity-70",
-                j.needsTidy ? "border-primary/40 ring-4 ring-primary/10" : "border-white",
+                j.needsTidy ? "border-primary/40 ring-4 ring-primary/10" : "border-edge",
               )}
             >
               {j.needsTidy && (
@@ -188,7 +188,7 @@ export default function JobsPage() {
                         <PenLine className="h-3.5 w-3.5" /> {t("job.edit")}
                       </Button>
                       <select
-                        className="ml-auto h-8 rounded-full border border-line bg-white px-3 text-xs text-ink shadow-raised outline-none"
+                        className="ml-auto h-8 rounded-full border border-line bg-surface px-3 text-xs text-ink shadow-raised outline-none"
                         value={j.status}
                         onChange={(e) => s.setJobStatus(j.id, e.target.value as JobOrder["status"])}
                       >
@@ -260,7 +260,7 @@ function PasteJobDialog({ job, hasPosts, onClose, onSent }: { job?: JobOrder; ha
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/25 p-3 backdrop-blur-[2px] sm:p-6" onClick={onClose}>
         <form
           onClick={(e) => e.stopPropagation()}
-          className="animate-rise flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-white bg-frame shadow-float"
+          className="animate-rise flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-[28px] border border-edge bg-frame shadow-float"
           onSubmit={async (e) => {
             e.preventDefault();
             if (!text.trim()) return;
@@ -281,12 +281,12 @@ function PasteJobDialog({ job, hasPosts, onClose, onSent }: { job?: JobOrder; ha
               <h2 className="text-xl font-medium tracking-tight">{t(job ? "paste.editTitle" : "paste.title")}</h2>
               <p className="mt-0.5 text-sm text-ink-soft">{t(job ? "paste.editSub" : "paste.sub")}</p>
             </div>
-            <button type="button" onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised" aria-label="Close">
+            <button type="button" onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised" aria-label="Close">
               <X className="h-4 w-4" />
             </button>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
-            <div className="rounded-[20px] border border-white bg-card p-4 shadow-card">
+            <div className="rounded-[20px] border border-edge bg-card p-4 shadow-card">
               <textarea autoFocus className={inputCls + " min-h-56 text-[15px] leading-relaxed"} placeholder={t("paste.ph")} value={text} onChange={(e) => setText(e.target.value)} />
               {found.length > 0 && (
                 <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-ink-soft">
@@ -335,7 +335,7 @@ function CreatePostMenu({ onHeadline, onPost }: { onHeadline: () => void; onPost
         <Sparkles className="h-3.5 w-3.5" /> {t("job.createPost")} <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} />
       </Button>
       {open && (
-        <div role="menu" className="animate-rise absolute bottom-11 left-0 z-30 w-72 rounded-2xl border border-line bg-white p-1.5 shadow-float">
+        <div role="menu" className="animate-rise absolute bottom-11 left-0 z-30 w-72 rounded-2xl border border-line bg-surface p-1.5 shadow-float">
           <button
             role="menuitem"
             className={item}
@@ -411,11 +411,11 @@ function JobProgress({ posts }: { posts: ContentCard[] }) {
       {!target ? (
         content
       ) : target.stage === "idea" ? (
-        <Link href="/plan" className="rounded-md hover:bg-white/70">
+        <Link href="/plan" className="rounded-md hover:bg-surface/70">
           {content}
         </Link>
       ) : (
-        <button onClick={() => openCard(target.id)} className="rounded-md text-left hover:bg-white/70">
+        <button onClick={() => openCard(target.id)} className="rounded-md text-left hover:bg-surface/70">
           {content}
         </button>
       )}
@@ -449,7 +449,7 @@ function JobForm({ job, isNew, onClose, onSave }: { job: JobOrder; isNew: boolea
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/25 p-3 backdrop-blur-[2px] sm:p-6" onClick={onClose}>
         <form
           onClick={(e) => e.stopPropagation()}
-          className={cn("animate-rise flex max-h-[92vh] w-full flex-col overflow-hidden rounded-[28px] border border-white bg-frame shadow-float", raw ? "max-w-6xl" : "max-w-2xl")}
+          className={cn("animate-rise flex max-h-[92vh] w-full flex-col overflow-hidden rounded-[28px] border border-edge bg-frame shadow-float", raw ? "max-w-6xl" : "max-w-2xl")}
           onSubmit={(e) => {
             e.preventDefault();
             onSave(j);
@@ -461,7 +461,7 @@ function JobForm({ job, isNew, onClose, onSave }: { job: JobOrder; isNew: boolea
               <h2 className="text-xl font-medium tracking-tight">{isNew ? t("job.formNew") : t("job.formEdit")}</h2>
               {job.needsTidy && <p className="mt-0.5 text-sm text-ink-soft">{t("paste.tidyHint")}</p>}
             </div>
-            <button type="button" onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-white text-ink-soft shadow-raised" aria-label="Close">
+            <button type="button" onClick={onClose} className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink-soft shadow-raised" aria-label="Close">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -498,14 +498,14 @@ function JobForm({ job, isNew, onClose, onSave }: { job: JobOrder; isNew: boolea
                   </div>
                 )}
                 {before && (
-                  <details className="mt-3 rounded-xl bg-white/70 px-3 py-2 ring-1 ring-line">
+                  <details className="mt-3 rounded-xl bg-surface/70 px-3 py-2 ring-1 ring-line">
                     <summary className="cursor-pointer text-xs font-medium text-ink-soft">{t("paste.before")}</summary>
                     <pre className="mt-2 font-sans text-xs leading-relaxed whitespace-pre-wrap text-ink-mute line-through decoration-ink-mute/40">{before}</pre>
                   </details>
                 )}
               </div>
             )}
-            <div className="grid content-start gap-3 rounded-[20px] border border-white bg-card p-4 shadow-card sm:grid-cols-2">
+            <div className="grid content-start gap-3 rounded-[20px] border border-edge bg-card p-4 shadow-card sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Field label={`${t("f.jobTitle")} *`}>
                   <input required className={inputCls} value={j.title} onChange={(e) => set({ title: e.target.value })} placeholder="Food Factory Worker" />

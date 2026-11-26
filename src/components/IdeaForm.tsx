@@ -100,14 +100,14 @@ export default function IdeaForm({ compact = false, title }: { compact?: boolean
         className={cn(
           "mt-3 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-4 text-center transition",
           compact ? "py-3" : "py-6",
-          drag ? "border-primary bg-primary-soft/50" : "border-gray-300 bg-white/60 hover:border-primary/50 hover:bg-white",
+          drag ? "border-primary bg-primary-soft/50" : "border-gray-300 bg-surface/60 hover:border-primary/50 hover:bg-surface",
         )}
       >
-        <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-primary shadow-raised">
+        <span className="grid h-11 w-11 place-items-center rounded-full bg-surface text-primary shadow-raised">
           <ImagePlus className="h-5 w-5" />
         </span>
         <span className="text-sm font-medium text-ink">{t("ideas.drop")}</span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3.5 py-1.5 text-sm shadow-raised">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm shadow-raised">
           <Upload className="h-4 w-4" /> {t("ideas.choose")}
         </span>
         <span className="text-xs text-ink-mute">{t("ideas.pasteHint")}</span>
@@ -157,7 +157,7 @@ export default function IdeaForm({ compact = false, title }: { compact?: boolean
           {links.map((l, i) => (
             <li key={i} className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-primary-soft/60 py-1 pr-1 pl-3 text-xs text-primary">
               <span className="truncate">{l}</span>
-              <button onClick={() => setLinks((x) => x.filter((_, k) => k !== i))} className="grid h-5 w-5 place-items-center rounded-full hover:bg-white" aria-label="Remove">
+              <button onClick={() => setLinks((x) => x.filter((_, k) => k !== i))} className="grid h-5 w-5 place-items-center rounded-full hover:bg-surface" aria-label="Remove">
                 <X className="h-3 w-3" />
               </button>
             </li>
