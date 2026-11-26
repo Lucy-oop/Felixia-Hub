@@ -41,7 +41,7 @@ export const STAGE_LABEL: Record<Stage, string> = {
 };
 
 /** Content types (pillars) shown in the Content Calendar. */
-export const CATEGORIES = ["Brand", "Hiring", "Knowledge", "Marketing", "Educational"] as const;
+export const CATEGORIES = ["Brand", "Hiring", "Knowledge", "Marketing", "Educational", "Seasonal"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export type Platform = "facebook" | "tiktok";
@@ -103,6 +103,8 @@ export interface PlanInfo {
 /** Which places are already posted, with the live link. */
 export type Posted = Partial<Record<Placement, { at: string; url: string }>>;
 
+export type FbScheduleStatus = "pending" | "scheduled" | "failed" | null;
+
 export interface ContentCard {
   id: string;
   title: string;
@@ -131,6 +133,11 @@ export interface ContentCard {
   review: Review;
   plan: PlanInfo;
   posted: Posted;
+  /** Facebook auto-scheduling (written only by /api/facebook/schedule). */
+  fbPostId: string | null;
+  fbScheduleStatus: FbScheduleStatus;
+  fbScheduleError: string;
+  fbScheduledFor: string; // ISO time Facebook will publish, "" if none
   versions: Version[];
   comments: Comment[];
   createdAt: string;

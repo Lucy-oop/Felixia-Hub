@@ -6,7 +6,7 @@ import { CalendarDays, Clock } from "lucide-react";
 import { useT } from "@/lib/i18n";
 import { useDB } from "@/lib/store";
 import type { ContentCard } from "@/lib/types";
-import { cn, confirmTab, fmtDate, needsEdit, placementsOf } from "@/lib/utils";
+import { cn, confirmTab, fmtDate, fmtDateTime, needsEdit, placementsOf } from "@/lib/utils";
 import { useUI } from "./Shell";
 import { Badge, GrayChip, PlacementMark, REVIEW_DOT, STAGE_STYLE, StatusPill } from "./ui";
 
@@ -71,9 +71,37 @@ export default function CardTile({ card, draggable = false, highlight = false }:
         )}
         {job?.status === "closed" && <Badge className="bg-rose-500 text-white">{t("tile.closed")}</Badge>}
       </div>
+      <FbStatus card={card} locale={locale} t={t} />
       {red && card.review.note && (
         <ReviewNote note={card.review.note} compact className="mt-2 rounded-xl bg-white px-2.5 py-1.5 text-xs ring-1 ring-rose-200" />
       )}
     </button>
+  );
+}
+
+/** Facebook auto-scheduling state: scheduling… / scheduled for <time> / posted / error message. */
+function FbStatus({ card, locale, t }: { card: ContentCard; locale: string; t: (k: string) => string }) {
+  const { fbScheduleStatus: st, fbPostId, fbScheduledFor, fbScheduleError } = card;
+  if (st === "failed")
+    return (
+      <div title={fbScheduleError} className="mt-2 line-clamp-3 rounded-xl bg-white px-2.5 py-1.5 text-xs text-rose-700 ring-1 ring-rose-200">
+        <span className="font-medium">{t("fb.failed")}:</span> {fbScheduleError}
+      </div>
+    );
+  if (st === "pending")
+    return (
+      <div className="mt-2">
+        <StatusPill color="bg-primary animate-pulse" className="ring-1 ring-line">{t("fb.pending")}</StatusPill>
+      </div>
+    );
+  if (!fbPostId) return null;
+  const live = !!fbScheduledFor && Date.parse(fbScheduledFor) <= Date.now();
+  return (
+    <div className="mt-2">
+      <StatusPill color={live ? "bg-ink" : "bg-[#1877F2]"} className="ring-1 ring-line">
+        {t(live ? "fb.live" : "fb.scheduled")}
+        {!live && fbScheduledFor && ` · ${fmtDateTime(fbScheduledFor, locale)}`}
+      </StatusPill>
+    </div>
   );
 }

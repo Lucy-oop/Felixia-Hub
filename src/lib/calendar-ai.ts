@@ -22,7 +22,7 @@ export const PILLAR_CATEGORY: Record<Pillar, Category> = {
   knowledge: "Knowledge",
   tips: "Educational",
   trust: "Brand",
-  festival: "Marketing",
+  festival: "Seasonal",
 };
 
 export const PILLAR_BRIEF: Record<Pillar, string> = {

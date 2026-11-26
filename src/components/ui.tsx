@@ -190,6 +190,7 @@ export const CATEGORY_COLOR: Record<Category, { chip: string; dot: string; bar: 
   Knowledge: { chip: "bg-violet-50 text-violet-700 ring-violet-200", dot: "bg-violet-500", bar: "bg-violet-500" },
   Marketing: { chip: "bg-orange-50 text-orange-700 ring-orange-200", dot: "bg-orange-500", bar: "bg-orange-500" },
   Educational: { chip: "bg-green-50 text-green-700 ring-green-200", dot: "bg-green-500", bar: "bg-green-500" },
+  Seasonal: { chip: "bg-rose-50 text-rose-700 ring-rose-200", dot: "bg-rose-500", bar: "bg-rose-500" },
 };
 
 export function CategoryChip({ category, className }: { category: Category; className?: string }) {

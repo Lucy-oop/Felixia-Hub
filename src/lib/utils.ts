@@ -142,6 +142,10 @@ export function placementsOf(c: Pick<ContentCard, "placements">): Placement[] {
     ? PLACEMENTS.filter((p) => c.placements.includes(p))
     : ["fb_post"];
 }
+/** A TikTok video line: goes to TikTok only (shown in the TikTok Video Calendar). */
+export function isTikTokVideo(c: Pick<ContentCard, "placements">): boolean {
+  return placementsOf(c).every((p) => p === "tiktok");
+}
 /** Platforms (Facebook / TikTok) this post goes to — from its placements. */
 export function platformsOf(c: Pick<ContentCard, "placements">): Platform[] {
   const pl = placementsOf(c);

@@ -154,6 +154,13 @@ function cardPatchToRow(p: Partial<ContentCard>): Row {
   return r;
 }
 
+/** Planned date + time as an ISO instant. They're saved without a time zone, so they mean this browser's local time. */
+function scheduledIso(c: ContentCard): string {
+  if (!c.plannedDate) return "";
+  const d = new Date(`${c.plannedDate}T${c.plannedTime || "19:00"}:00`);
+  return Number.isNaN(d.getTime()) ? "" : d.toISOString();
+}
+
 function canMove(c: ContentCard, to: Stage): Result {
   if (to === "review" && !c.graphicUrl && !c.tiktokMediaUrl)
     return { ok: false, error: "err.needGraphic" };
@@ -192,6 +199,10 @@ function blankCard(p: Partial<ContentCard>): ContentCard {
     review: { status: "none" },
     plan: { status: "draft" },
     posted: {},
+    fbPostId: null,
+    fbScheduleStatus: null,
+    fbScheduleError: "",
+    fbScheduledFor: "",
     versions: [],
     comments: [],
     createdAt: now(),
@@ -296,7 +307,7 @@ export async function uploadFile(
 async function checkSchema(): Promise<string[]> {
   const probe = async (cols: string) =>
     !(await supabase.from("content_cards").select(cols).limit(1)).error;
-  const [p4, p5, p12] = await Promise.all([
+  const [p4, p5, p12, p13] = await Promise.all([
     probe("plan_status, plan_note, plan_at, posted"),
     probe("client_note"),
     // AI month plan holiday edits; only the manager can read the table, so only report it for them
@@ -305,8 +316,9 @@ async function checkSchema(): Promise<string[]> {
       .select("month")
       .limit(1)
       .then((r) => !r.error || !/month_holidays|schema cache|does not exist/i.test(r.error.message)),
+    probe("fb_post_id, fb_schedule_status, fb_schedule_error, fb_scheduled_for"),
   ]);
-  return [!p4 && "phase4.sql", !p5 && "phase5.sql", !p12 && "phase12.sql"].filter(
+  return [!p4 && "phase4.sql", !p5 && "phase5.sql", !p12 && "phase12.sql", !p13 && "phase13.sql"].filter(
     (x): x is string => !!x,
   );
 }
@@ -461,6 +473,10 @@ async function loadAll(): Promise<DB> {
         at: r.plan_at ?? undefined,
       },
       posted: r.posted ?? {},
+      fbPostId: r.fb_post_id ?? null,
+      fbScheduleStatus: r.fb_schedule_status ?? null,
+      fbScheduleError: r.fb_schedule_error ?? "",
+      fbScheduledFor: r.fb_scheduled_for ?? "",
       versions: (versions.data ?? [])
         .filter((v) => v.card_id === r.id)
         .map((v) => ({
@@ -685,6 +701,56 @@ function useStoreValue() {
   );
 
   const find = (id: string) => dbRef.current?.cards.find((c) => c.id === id);
+
+  /** Ask the server to schedule (POST) or cancel (DELETE) the post on the Facebook Page. */
+  const callFacebook = async (method: "POST" | "DELETE", body: { postId: string; scheduledAt?: string }) => {
+    try {
+      const { data } = await supabase.auth.getSession();
+      const res = await fetch("/api/facebook/schedule", {
+        method,
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${data.session?.access_token}` },
+        body: JSON.stringify(body),
+      });
+      const out: { status?: string; error?: string } = await res.json().catch(() => ({}));
+      // Facebook / validation errors are saved on the card (badge); only show setup problems here
+      if (!res.ok && out.status !== "failed") setError(out.error || `Facebook scheduling failed (${res.status})`);
+      return out.status ?? "error";
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      return "error";
+    }
+  };
+
+  /**
+   * Keep Facebook in step with a card once its change is saved (`saved` = the run() result):
+   * into Approved → schedule natively on Facebook (once); out of Approved (except to Published) →
+   * cancel there; date / time changed while Approved → cancel + schedule again.
+   */
+  const fbSync = async (before: ContentCard, after: ContentCard, saved: Promise<boolean>) => {
+    if (!(await saved)) return;
+    const fb = after.placements.includes("fb_post");
+    const wasIn = before.stage === "approved";
+    const isIn = after.stage === "approved";
+    const queued = !!before.fbPostId || !!before.fbScheduleStatus;
+    const timeChanged = before.plannedDate !== after.plannedDate || before.plannedTime !== after.plannedTime;
+    const leaving = !isIn && after.stage !== "published" && (wasIn || queued);
+    const dropped = isIn && !fb && queued;
+    const schedule = isIn && fb && (!wasIn || timeChanged || !before.placements.includes("fb_post"));
+    if (!leaving && !dropped && !schedule) return;
+
+    const mark = (fbScheduleStatus: ContentCard["fbScheduleStatus"]) =>
+      setDb((d) => (d ? { ...d, cards: d.cards.map((x) => (x.id === after.id ? { ...x, fbScheduleStatus, fbScheduleError: "" } : x)) } : d));
+    if (leaving || dropped || (schedule && wasIn && timeChanged && before.fbPostId)) {
+      const st = await callFacebook("DELETE", { postId: after.id });
+      // couldn't cancel (or it is already live) → don't schedule a second copy
+      if (st !== "cancelled" && st !== "none") return void reload();
+    }
+    if (schedule) {
+      mark("pending");
+      await callFacebook("POST", { postId: after.id, scheduledAt: scheduledIso(after) });
+    }
+    await reload();
+  };
   /** One version save at a time per post, so quick repeat saves can't race past the duplicate check. */
   const versionQueue = useRef(new Map<string, Promise<unknown>>());
 
@@ -878,7 +944,7 @@ function useStoreValue() {
       );
 
       const snapshot = { caption: c.caption, graphic_url: c.graphicUrl };
-      run(
+      const saved = run(
         async () => {
           const out = [];
           if (captionChanged || graphicChanged) {
@@ -918,11 +984,20 @@ function useStoreValue() {
         },
         `edited "${patch.title ?? c.title}"`,
       );
+      void fbSync(c, next, saved);
     },
     deleteCard(id: string) {
       const c = find(id);
       run(
-        () => supabase.from("content_cards").delete().eq("id", id),
+        async () => {
+          // cancel on Facebook first so a deleted post can't still be published
+          if (c?.fbPostId) {
+            const st = await callFacebook("DELETE", { postId: id });
+            if (st !== "cancelled" && st !== "none" && st !== "live")
+              return { error: { message: "Couldn't cancel the scheduled Facebook post, so it was not deleted. Try again." } };
+          }
+          return supabase.from("content_cards").delete().eq("id", id);
+        },
         `deleted "${c?.title}"`,
       );
     },
@@ -942,13 +1017,17 @@ function useStoreValue() {
             }
           : d,
       );
-      run(
-        () =>
-          supabase
-            .from("content_cards")
-            .update(cardPatchToRow(patch))
-            .eq("id", id),
-        `moved "${c.title}" to ${STAGE_LABEL[to]}`,
+      void fbSync(
+        c,
+        { ...c, ...patch },
+        run(
+          () =>
+            supabase
+              .from("content_cards")
+              .update(cardPatchToRow(patch))
+              .eq("id", id),
+          `moved "${c.title}" to ${STAGE_LABEL[to]}`,
+        ),
       );
       return { ok: true };
     },
@@ -984,7 +1063,7 @@ function useStoreValue() {
           patch.stage = "approved";
         if (decision === "changes") patch.stage = "design";
       }
-      run(
+      const saved = run(
         async () => {
           const out = [
             await supabase
@@ -1003,6 +1082,7 @@ function useStoreValue() {
         },
         `${decision === "approved" ? "approved" : "requested changes on"} the ${which} of "${c.title}"`,
       );
+      void fbSync(c, { ...c, ...patch }, saved);
     },
     addComment(id: string, text: string) {
       run(() => supabase.from("comments").insert({ card_id: id, body: text }));
@@ -1020,13 +1100,17 @@ function useStoreValue() {
             }
           : d,
       );
-      run(
-        () =>
-          supabase
-            .from("content_cards")
-            .update({ planned_date: date })
-            .eq("id", id),
-        `moved "${c.title}" to ${date}`,
+      void fbSync(
+        c,
+        { ...c, plannedDate: date },
+        run(
+          () =>
+            supabase
+              .from("content_cards")
+              .update({ planned_date: date })
+              .eq("id", id),
+          `moved "${c.title}" to ${date}`,
+        ),
       );
     },
     submitIdea(title: string, note: string) {
@@ -1348,14 +1432,16 @@ function useStoreValue() {
             }
           : d,
       );
-      run(
+      const saved = run(
         () =>
           supabase
             .from("content_cards")
             .update(cardPatchToRow(patch))
             .eq("id", id),
         `sent "${c.title}" to the client for review`,
-      ).then((ok) => void (ok && notify("review", id)));
+      );
+      saved.then((ok) => void (ok && notify("review", id)));
+      void fbSync(found, { ...c, ...patch }, saved);
       return { ok: true };
     },
     clientDecide(id: string, decision: "approved" | "changes", note: string) {
@@ -1373,7 +1459,7 @@ function useStoreValue() {
             }
           : d,
       );
-      run(
+      const saved = run(
         async () => {
           const out = [
             await supabase
@@ -1391,7 +1477,9 @@ function useStoreValue() {
           return out;
         },
         `${decision === "approved" ? "approved" : "asked for edits on"} "${c.title}"`,
-      ).then(
+      );
+      void fbSync(c, { ...c, ...patch }, saved);
+      saved.then(
         (ok) =>
           void (
             ok && notify(decision === "approved" ? "approved" : "changes", id)

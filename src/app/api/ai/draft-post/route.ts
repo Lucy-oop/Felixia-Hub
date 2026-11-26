@@ -7,7 +7,7 @@ import { generateWithBrandVoice } from "@/lib/brand-gemini";
  * Manager only. Body: { headline, platform: "facebook" | "tiktok", lang, cardId?, category? } → FB caption or 30s TikTok
  * script + graphic headline + visual idea.
  * - Hiring posts: strict — follow the saved hiring template, facts only, low temperature (0.2).
- * - Every other post (Educational, Knowledge, Brand, Marketing, Ideas Inbox): the saved templates are only style
+ * - Every other post (Educational, Knowledge, Brand, Marketing, Seasonal, Ideas Inbox): the saved templates are only style
  *   guides; the AI picks a fresh structure and writes natural conversational Burmese, temperature 0.75.
  *   Compliance rules still apply in full.
  */

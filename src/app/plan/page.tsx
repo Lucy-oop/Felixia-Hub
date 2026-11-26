@@ -51,6 +51,7 @@ import {
   can,
   cn,
   isOpenSlot,
+  isTikTokVideo,
   jobLineTitle,
   placementsOf,
   planLocked,
@@ -162,6 +163,9 @@ export default function PlanPage() {
         b.plannedDate + b.plannedTime,
       ),
     );
+  const contentLines = all.filter((c) => !isTikTokVideo(c));
+  const videoLines = all.filter(isTikTokVideo);
+  const videoCount = videoLines.filter((c) => c.plannedDate.startsWith(month)).length;
   const monthLines = db.cards.filter(
     (c) =>
       c.plannedDate.startsWith(month) && (manager || c.plan.status !== "draft"),
@@ -211,6 +215,40 @@ export default function PlanPage() {
       ]),
     ] as [string, number][]
   ).filter(([st, n]) => st === "" || n > 0 || st === status);
+
+  const views = (lines: ContentCard[]) => (
+    <>
+              {view === "timeline" && (
+                <WeekTimeline
+                  start={tlStart}
+                  days={14}
+                  cards={lines}
+                  canDrag={manager}
+                  onMove={s.setDate}
+                  onOpen={open}
+                  look={manager ? planLook : clientLook}
+                  badge={() => null}
+                />
+              )}
+
+              {view === "month" && (
+                <PlanMonth
+                  cursor={cursor}
+                  cards={lines}
+                  manager={manager}
+                  onOpen={open}
+                />
+              )}
+
+              {view === "table" && (
+                <PlanTable
+                  month={month}
+                  lines={lines.filter((c) => c.plannedDate.startsWith(month))}
+                  manager={manager}
+                />
+              )}
+    </>
+  );
 
   return (
     <EditCtx.Provider value={setEditing}>
@@ -424,36 +462,52 @@ export default function PlanPage() {
                 })}
               </div>
 
-              {view === "timeline" && (
-                <WeekTimeline
-                  start={tlStart}
-                  days={14}
-                  cards={all}
-                  canDrag={manager}
-                  onMove={s.setDate}
-                  onOpen={open}
-                  look={manager ? planLook : clientLook}
-                  badge={() => null}
-                />
-              )}
-
-              {view === "month" && (
-                <PlanMonth
-                  cursor={cursor}
-                  cards={all}
-                  manager={manager}
-                  onOpen={open}
-                />
-              )}
-
-              {view === "table" && (
-                <PlanTable
-                  month={month}
-                  lines={all.filter((c) => c.plannedDate.startsWith(month))}
-                  manager={manager}
-                />
-              )}
+              {views(contentLines)}
             </Panel>
+
+            {/* TikTok Video Calendar — TikTok-only lines; new lines here default to TikTok */}
+            <EditCtx.Provider
+              value={(e) =>
+                setEditing(
+                  e.id
+                    ? e
+                    : { ...e, init: { ...e.init, placements: ["tiktok"] } },
+                )
+              }
+            >
+              <Panel className="animate-rise">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                  <h2 className="flex items-center gap-2 text-xl font-medium tracking-tight">
+                    <PlacementMark placement="tiktok" className="h-5 w-5" />
+                    {t("plan.tiktokTitle")}
+                    <span className="rounded-full bg-chip/70 px-2 text-xs font-medium tabular-nums text-ink-mute">
+                      {videoCount}
+                    </span>
+                  </h2>
+                  {manager && (
+                    <Button
+                      size="sm"
+                      className="h-9"
+                      onClick={() =>
+                        setEditing({
+                          date: todayIso.startsWith(month)
+                            ? todayIso
+                            : `${month}-01`,
+                          init: { placements: ["tiktok"] },
+                        })
+                      }
+                    >
+                      <Plus className="h-4 w-4" /> {t("plan.addVideo")}
+                    </Button>
+                  )}
+                </div>
+                {videoCount === 0 && view !== "month" ? (
+                  <Empty>{t("plan.noVideos")}</Empty>
+                ) : (
+                  views(videoLines)
+                )}
+              </Panel>
+            </EditCtx.Provider>
 
             {/* one bottom action bar — same look for both roles */}
             {(manager ? drafts > 0 || waiting > 0 : waiting > 0) && (
@@ -1540,7 +1594,9 @@ function PlanLineDialog({
     plannedTime: card?.plannedTime ?? "19:00",
     category:
       card?.category ?? init?.category ?? ("Hiring" as ContentCard["category"]),
-    placements: card ? placementsOf(card) : (["fb_post"] as Placement[]),
+    placements: card
+      ? placementsOf(card)
+      : ((init?.placements?.length ? init.placements : ["fb_post"]) as Placement[]),
     notes: card?.notes ?? init?.notes ?? "",
   });
   const set = (p: Partial<typeof f>) => setF({ ...f, ...p });
@@ -1648,7 +1704,9 @@ function PlanLineDialog({
               </p>
             </div>
           )}
-          <Field label={t("plan.headline")}>
+          <Field
+            label={t(isTikTokVideo(f) ? "plan.videoHeadline" : "plan.headline")}
+          >
             <input
               autoFocus
               className={cn(
