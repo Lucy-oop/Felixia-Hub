@@ -1,6 +1,7 @@
 "use client";
 
 import { MonthPlanButton } from "@/components/MonthPlanAI";
+import { OptimizeDatesButton } from "@/components/OptimizeDatesAI";
 import {
   ArrowRight,
   Briefcase,
@@ -334,6 +335,7 @@ export default function PlanPage() {
                     onSaved={(ym) => setCursor(new Date(`${ym}-01T00:00:00`))}
                   />
                 )}
+                {manager && <OptimizeDatesButton month={month} />}
                 {manager && (
                   <Button
                     size="sm"
