@@ -86,12 +86,12 @@ export function Panel({ children, className }: { children: React.ReactNode; clas
 
 export function PanelHeader({ title, children, count }: { title: string; children?: React.ReactNode; count?: number }) {
   return (
-    <div className="mb-4 flex items-center justify-between gap-3">
-      <h2 className="flex items-center gap-2 text-xl font-medium tracking-tight text-ink">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <h2 className="flex shrink-0 items-center gap-2 text-xl font-medium tracking-tight text-ink">
         {title}
         {count !== undefined && <span className="rounded-full bg-chip px-2 py-0.5 text-xs font-medium text-ink-soft">{count}</span>}
       </h2>
-      <div className="flex items-center gap-2">{children}</div>
+      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-2">{children}</div>
     </div>
   );
 }
@@ -277,12 +277,12 @@ export function ApprovalBadge({ label, status }: { label: string; status: Approv
 /* ---------- Segmented control & language ---------- */
 export function Segmented<T extends string>({ value, options, onChange, className }: { value: T; options: { id: T; label: string }[]; onChange: (v: T) => void; className?: string }) {
   return (
-    <div className={cn("inline-flex rounded-full bg-chip/70 p-1", className)}>
+    <div className={cn("inline-flex max-w-full overflow-x-auto rounded-full bg-chip/70 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden", className)}>
       {options.map((o) => (
         <button
           key={o.id}
           onClick={() => onChange(o.id)}
-          className={cn("rounded-full px-3.5 py-1.5 text-xs font-medium transition-all", value === o.id ? "bg-surface text-ink shadow-raised" : "text-ink-soft hover:text-ink")}
+          className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium whitespace-nowrap transition-all", value === o.id ? "bg-surface text-ink shadow-raised" : "text-ink-soft hover:text-ink")}
         >
           {o.label}
         </button>

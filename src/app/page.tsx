@@ -38,19 +38,19 @@ export default function Home() {
     <Panel className="animate-rise">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h1 className={cn("leading-tight font-medium tracking-tight", role === "client" ? "text-xl" : "text-[28px]")}>{t("tl.title")}</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center rounded-full border border-line bg-surface shadow-raised">
             <button className="grid h-9 w-9 place-items-center rounded-full text-ink-soft hover:text-ink" onClick={() => setWeekStart(addDays(weekStart, -7))} aria-label="Previous week">
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <button className="flex items-center gap-2 px-1 text-sm" onClick={() => setWeekStart(startOfWeek(new Date()))}>
+            <button className="flex items-center gap-2 px-1 text-sm whitespace-nowrap" onClick={() => setWeekStart(startOfWeek(new Date()))}>
               <CalendarDays className="h-4 w-4 text-ink-soft" /> {weekLabel}
             </button>
             <button className="grid h-9 w-9 place-items-center rounded-full text-ink-soft hover:text-ink" onClick={() => setWeekStart(addDays(weekStart, 7))} aria-label="Next week">
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
-          <Link href="/calendar" className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm shadow-raised hover:bg-gray-50">
+          <Link href="/calendar" className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm whitespace-nowrap shadow-raised hover:bg-gray-50">
             <ArrowUpRight className="h-4 w-4" /> {t("tl.viewAll")}
           </Link>
         </div>
@@ -161,7 +161,7 @@ export default function Home() {
 function ViewAll({ href }: { href: string }) {
   const { t } = useT();
   return (
-    <Link href={href} className="inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm shadow-raised hover:bg-gray-50">
+    <Link href={href} className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm whitespace-nowrap shadow-raised hover:bg-gray-50">
       <ArrowUpRight className="h-4 w-4" /> {t("tl.viewAll")}
     </Link>
   );

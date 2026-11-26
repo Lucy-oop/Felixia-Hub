@@ -263,8 +263,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               <div className="flex-1" />
 
               <div className="hidden sm:block">{quickAction}</div>
-              <LangSwitcher className="hidden md:inline-flex" />
-              <ThemeToggle className="hidden md:grid" />
+              {/* phones: language + theme live in the avatar menu */}
+              <div className="hidden items-center gap-2 md:flex">
+                <LangSwitcher />
+                <ThemeToggle />
+              </div>
 
               {/* bell */}
               <div ref={bell.ref} className="relative">

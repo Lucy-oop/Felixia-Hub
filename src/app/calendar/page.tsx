@@ -92,7 +92,7 @@ export default function PostingCalendarPage() {
               </Button>
             </div>
             <div className="-mx-1 overflow-x-auto px-1">
-              <div className="min-w-[780px]">
+              <div className="min-w-[640px]">
                 <div className="mb-1.5 grid grid-cols-7 gap-1.5">
                   {weekdays.map((d, i) => (
                     <div key={d} className={cn("rounded-xl py-1.5 text-center text-[11px]", i >= 5 ? "bg-chip text-ink-soft" : "bg-surface text-ink-soft shadow-[inset_0_0_0_1px_var(--color-line)]")}>
