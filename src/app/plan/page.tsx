@@ -45,6 +45,8 @@ import {
   type Placement,
   type Platform,
   type PlanStatus,
+  PLAIN_FORMATS,
+  VIDEO_TYPES,
 } from "@/lib/types";
 import {
   addDays,
@@ -983,6 +985,19 @@ function HeadlineSteps({
  * One line of the table — the SAME row for manager and client.
  * Only the Status cell differs: manager sees the pill (+ Make post); client gets Approve / Edit.
  */
+/** TikTok video line: its video type (preset or the manager's own text). */
+function VideoTypeChip({ card }: { card: ContentCard }) {
+  const { t } = useT();
+  const f = card.format?.trim() ?? "";
+  if (!isTikTokVideo(card) || PLAIN_FORMATS.includes(f)) return null;
+  const label = (VIDEO_TYPES as readonly string[]).includes(f) ? t(`vt.${f}`) : f;
+  return (
+    <span className="mx-1.5 mt-1 inline-flex items-center gap-1 rounded-full bg-chip/70 px-2 py-0.5 text-[11px] font-medium text-ink-soft">
+      🎬 {label}
+    </span>
+  );
+}
+
 function PlanRow({
   card,
   dateCell,
@@ -1025,6 +1040,7 @@ function PlanRow({
         <div className="px-1.5 pt-1 font-medium text-ink transition-colors group-hover:text-primary">
           {card.title}
         </div>
+        <VideoTypeChip card={card} />
         {manager && isOpenSlot(card) && <SlotAttach card={card} />}
         <HeadlineSteps card={card} manager={manager} />
       </td>
@@ -1598,13 +1614,31 @@ function PlanLineDialog({
       ? placementsOf(card)
       : ((init?.placements?.length ? init.placements : ["fb_post"]) as Placement[]),
     notes: card?.notes ?? init?.notes ?? "",
+    format: card?.format ?? init?.format ?? "",
   });
+  // video type picker: a preset, "other" (own text) or none
+  const [vtPick, setVtPick] = useState(() =>
+    (VIDEO_TYPES as readonly string[]).includes(f.format)
+      ? f.format
+      : PLAIN_FORMATS.includes(f.format)
+        ? ""
+        : "other",
+  );
   const set = (p: Partial<typeof f>) => setF({ ...f, ...p });
   const comment = card ? clientComment(card) : "";
   const fixing = card?.plan.status === "changes" && !planLocked(card);
 
   const save = () => {
-    const v = { ...f, title: f.title.trim(), notes: f.notes.trim() };
+    const { format, ...rest } = f;
+    const vt = format.trim();
+    const v: Partial<ContentCard> & { title: string } = {
+      ...rest,
+      title: f.title.trim(),
+      notes: f.notes.trim(),
+      ...(isTikTokVideo(f) && (vt || !PLAIN_FORMATS.includes(card?.format ?? ""))
+        ? { format: vt || "Video" }
+        : {}),
+    };
     if (!v.title) return;
     // saved lines go straight to the client's calendar ("Waiting for client")
     const sent = { status: "sent" as PlanStatus, at: new Date().toISOString() };
@@ -1760,6 +1794,35 @@ function PlanLineDialog({
               onChange={(placements) => set({ placements })}
             />
           </Field>
+          {isTikTokVideo(f) && (
+            <Field label={t("vt.label")}>
+              <select
+                className={selectCls}
+                value={vtPick}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setVtPick(v);
+                  set({ format: v === "other" ? "" : v });
+                }}
+              >
+                <option value="">—</option>
+                {VIDEO_TYPES.map((x) => (
+                  <option key={x} value={x}>
+                    {t(`vt.${x}`)}
+                  </option>
+                ))}
+                <option value="other">{t("vt.other")}</option>
+              </select>
+              {vtPick === "other" && (
+                <input
+                  className={inputCls + " mt-2"}
+                  value={f.format}
+                  placeholder={t("vt.otherPh")}
+                  onChange={(e) => set({ format: e.target.value })}
+                />
+              )}
+            </Field>
+          )}
           <Field label={t("col.notes")}>
             <textarea
               rows={3}

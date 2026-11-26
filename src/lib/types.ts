@@ -44,6 +44,12 @@ export const STAGE_LABEL: Record<Stage, string> = {
 export const CATEGORIES = ["Brand", "Hiring", "Knowledge", "Marketing", "Educational", "Seasonal"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
+/** TikTok video styles (saved in the card's "format" field; any other text = the manager's own type). */
+export const VIDEO_TYPES = ["infographic", "kinetic", "split", "slideshow"] as const;
+export type VideoType = (typeof VIDEO_TYPES)[number];
+/** Old "format" values that are not a video type. */
+export const PLAIN_FORMATS = ["", "Feed", "Story", "Reel", "Video"];
+
 export type Platform = "facebook" | "tiktok";
 
 /** Where a post is published. Reel, Story and TikTok are vertical (9:16) and share one video. */
